@@ -1,0 +1,1447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>RudraVastu Astro — Panchangam, Jathakam & Vastu</title>
+<meta name="description" content="RudraVastu Astro — Vedic astrology, real-time panchangam, marriage matchmaking and muhurthams by Pulugurtha Prasad Sharma">
+<meta name="theme-color" content="#2B0F33">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Mukta:wght@400;600&family=Noto+Serif+Devanagari:wght@500&family=Noto+Sans+Telugu:wght@400;600&family=Noto+Serif+Telugu:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme: light dark;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  /* light */
+  --bg:#FFF4E4; --bg2:#FFDDEB;
+  --c1:#D9731A; --c2:#D1316A; --c3:#7B45D6; --c4:#0E8F7C; --c5:#2272C9; --c6:#B8860B;
+  --text:#2B1230; --muted:#6D4B6E;
+  --panel:rgba(255,255,255,.78); --panel2:rgba(255,248,238,.94); --edge:rgba(123,69,214,.3);
+  --star:#7B45D6; --ring:#B8860B;
+  --good:#12703F; --bad:#B02A1B;
+  --btn-a:#C25E0A; --btn-b:#B8235D; --btn-text:#fff;
+  --ext1:#FFD9A0; --ext2:#E7A34B; --ext3:#C0602A; --ext4:#8A1F4A; --extglow:rgba(123,69,214,.35);
+  --nav-bg:rgba(255,246,236,.94);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#150A26; --bg2:#2B0F33;
+    --c1:#FF9F43; --c2:#FF5D8F; --c3:#B07CFF; --c4:#35D0BA; --c5:#5AB0FF; --c6:#FFD166;
+    --text:#FFF3E0; --muted:#D9C5E0;
+    --panel:rgba(46,20,66,.74); --panel2:rgba(72,28,86,.9); --edge:rgba(255,209,102,.32);
+    --star:#FFE9B8; --ring:#FFD166;
+    --good:#8FE3AE; --bad:#FF9C8C;
+    --btn-a:#FFB347; --btn-b:#FF6B9A; --btn-text:#2A0B1F;
+    --ext1:#FFE79A; --ext2:#FFB347; --ext3:#E0662F; --ext4:#8A1F4A; --extglow:rgba(176,124,255,.5);
+    --nav-bg:rgba(30,12,48,.94);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#150A26; --bg2:#2B0F33;
+  --c1:#FF9F43; --c2:#FF5D8F; --c3:#B07CFF; --c4:#35D0BA; --c5:#5AB0FF; --c6:#FFD166;
+  --text:#FFF3E0; --muted:#D9C5E0;
+  --panel:rgba(46,20,66,.74); --panel2:rgba(72,28,86,.9); --edge:rgba(255,209,102,.32);
+  --star:#FFE9B8; --ring:#FFD166;
+  --good:#8FE3AE; --bad:#FF9C8C;
+  --btn-a:#FFB347; --btn-b:#FF6B9A; --btn-text:#2A0B1F;
+  --ext1:#FFE79A; --ext2:#FFB347; --ext3:#E0662F; --ext4:#8A1F4A; --extglow:rgba(176,124,255,.5);
+  --nav-bg:rgba(30,12,48,.94);
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 80px)}
+body{
+  margin:0;color:var(--text);background:var(--bg);
+  font-family:"Mukta",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:1.0625rem;line-height:1.6;overflow-x:hidden;
+}
+html.te body{font-family:"Noto Sans Telugu","Mukta",system-ui,sans-serif;line-height:1.85}
+html.te h1,html.te h2,html.te h3,html.te h4,html.te .brand,html.te .big,html.te .token b{font-family:"Noto Serif Telugu","Noto Sans Telugu",Georgia,serif;line-height:1.4}
+body::after{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(900px 620px at 85% 6%, color-mix(in srgb,var(--c3) 40%,transparent), transparent 70%),
+    radial-gradient(800px 600px at 4% 38%, color-mix(in srgb,var(--c2) 28%,transparent), transparent 70%),
+    radial-gradient(900px 700px at 72% 96%, color-mix(in srgb,var(--c4) 26%,transparent), transparent 70%),
+    radial-gradient(700px 500px at 20% 8%, color-mix(in srgb,var(--c1) 20%,transparent), transparent 70%),
+    linear-gradient(180deg,var(--bg),var(--bg2));
+}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--nav-bg)}
+#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;display:block;transition:opacity .6s}
+.page{position:relative;z-index:1}
+a{color:inherit}
+button{font-family:inherit}
+:focus-visible{outline:3px solid var(--c6);outline-offset:3px;border-radius:8px}
+.wrap{width:min(1180px,100%);margin:0 auto;padding:0 24px}
+h1,h2,h3,h4{font-family:"Marcellus",Georgia,"Times New Roman",serif;font-weight:400;margin:0;line-height:1.12}
+p{margin:0}
+[hidden]{display:none!important}
+
+/* ticker */
+.ticker{position:relative;z-index:2;background:linear-gradient(90deg,#651C28,#5B2A8C,#0E6F63,#651C28);color:#FFF3E0;overflow:hidden;white-space:nowrap;font-size:.92rem;padding:6px 0}
+.ticker .track{display:inline-flex;animation:tick 70s linear infinite}
+.ticker span{padding-right:2.2rem}
+@keyframes tick{to{transform:translateX(-50%)}}
+
+/* header */
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:70;background:var(--nav-bg);border-bottom:1px solid var(--edge)}
+.nav{display:flex;align-items:center;gap:14px;min-height:66px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:"Marcellus",Georgia,serif;font-size:1.28rem;color:var(--c6);white-space:nowrap}
+.brand svg{width:36px;height:36px;color:var(--c1);animation:spin 40s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.nav ul{display:flex;gap:4px;list-style:none;margin:0 0 0 auto;padding:0}
+.nav ul a{display:block;padding:8px 13px;border-radius:999px;text-decoration:none;color:var(--text);transition:background .2s,transform .2s}
+.nav ul a:hover{background:color-mix(in srgb,var(--c2) 24%,transparent);transform:translateY(-2px)}
+.nav ul a.on{background:linear-gradient(135deg,var(--btn-a),var(--btn-b));color:var(--btn-text);font-weight:600}
+.lang{display:flex;border:1px solid var(--edge);border-radius:999px;overflow:hidden;font-size:.92rem;margin-left:auto}
+.nav ul + .lang{margin-left:0}
+.lang button{padding:6px 13px;border:0;background:transparent;color:var(--text);cursor:pointer;font-size:.92rem}
+.lang button[aria-pressed="true"]{background:linear-gradient(135deg,var(--c4),var(--c5));color:#04141a;font-weight:600}
+.phone-link{font-weight:600;text-decoration:none;color:var(--c6);white-space:nowrap}
+
+/* buttons */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 22px;border-radius:999px;text-decoration:none;font-weight:600;
+  border:1px solid color-mix(in srgb,var(--btn-b) 70%,#000);
+  background:linear-gradient(135deg,var(--btn-a),var(--btn-b));color:var(--btn-text);
+  box-shadow:0 1px 0 rgba(255,255,255,.4) inset,0 6px 0 color-mix(in srgb,var(--btn-b) 55%,#000),0 14px 24px rgba(0,0,0,.35);
+  transition:transform .15s,box-shadow .15s,filter .2s;cursor:pointer;font-size:1rem;line-height:1.3;text-align:center
+}
+.btn:hover{transform:translateY(2px);filter:brightness(1.07);box-shadow:0 1px 0 rgba(255,255,255,.4) inset,0 4px 0 color-mix(in srgb,var(--btn-b) 55%,#000),0 9px 16px rgba(0,0,0,.35)}
+.btn:active{transform:translateY(5px);box-shadow:0 1px 0 rgba(255,255,255,.4) inset,0 1px 0 color-mix(in srgb,var(--btn-b) 55%,#000),0 3px 8px rgba(0,0,0,.35)}
+.btn.teal{background:linear-gradient(135deg,var(--c4),var(--c5));border-color:var(--c4);color:#04141a;box-shadow:0 1px 0 rgba(255,255,255,.4) inset,0 6px 0 color-mix(in srgb,var(--c4) 45%,#000),0 14px 24px rgba(0,0,0,.35)}
+.btn.teal:hover{box-shadow:0 1px 0 rgba(255,255,255,.4) inset,0 4px 0 color-mix(in srgb,var(--c4) 45%,#000),0 9px 16px rgba(0,0,0,.35)}
+.btn.ghost{background:transparent;color:var(--text);border-color:var(--edge);box-shadow:0 6px 0 var(--edge)}
+.btn.ghost:hover{box-shadow:0 4px 0 var(--edge)}
+.btn.ghost:active{box-shadow:0 1px 0 var(--edge)}
+.btn.small{padding:8px 16px;font-size:.95rem}
+
+/* 3D text */
+.h3d{color:var(--ext1);
+  text-shadow:0 1px 0 var(--ext2),0 2px 0 var(--ext2),0 3px 0 var(--ext3),0 4px 0 var(--ext3),0 5px 0 var(--ext3),0 6px 0 var(--ext4),0 7px 0 var(--ext4),0 8px 0 var(--ext4),0 18px 26px var(--extglow)}
+
+/* views */
+.view{display:none}
+.view.active{display:block;animation:viewIn .75s cubic-bezier(.2,.8,.2,1)}
+@keyframes viewIn{from{opacity:0;transform:perspective(1400px) rotateY(-14deg) translateZ(-140px) translateX(-30px)}to{opacity:1;transform:none}}
+section{padding:96px 0;position:relative}
+.pagehead{padding:64px 0 28px}
+section.hero{min-height:calc(100svh - 110px);display:flex;align-items:center;padding:56px 0 80px}
+.hero .copy{max-width:620px;perspective:900px}
+.hero h1{font-size:clamp(2.8rem,7vw,5.4rem);transform:rotateY(var(--hy,0deg)) rotateX(var(--hx,0deg));transform-style:preserve-3d;transition:transform .2s;will-change:transform}
+html.te .hero h1{font-size:clamp(2.2rem,5.6vw,4.1rem)}
+.hero .kicker{color:var(--c4);margin-bottom:16px;font-size:1.08rem;font-weight:600}
+.hero .lede{margin:28px 0;font-size:1.2rem;max-width:34em}
+.hero .cta{display:flex;flex-wrap:wrap;gap:20px 14px}
+.tokens{display:flex;flex-wrap:wrap;gap:18px;margin-top:48px;perspective:800px}
+.token{padding:14px 20px;border-radius:16px;border:1px solid var(--edge);transform:rotateY(-14deg) rotateX(6deg);box-shadow:-10px 14px 26px rgba(0,0,0,.3);min-width:150px;
+  background:linear-gradient(150deg,color-mix(in srgb,var(--tc) 30%,var(--panel2)),var(--panel));animation:float 6s ease-in-out infinite;animation-delay:var(--fd,0s)}
+.token b{display:block;font-family:"Marcellus",Georgia,serif;font-weight:400;font-size:1.5rem;color:var(--tc);line-height:1.2;filter:brightness(1.15)}
+.token small{color:var(--muted);font-size:.96rem}
+@keyframes float{50%{transform:rotateY(-14deg) rotateX(6deg) translateY(-8px) translateZ(20px)}}
+
+.sec-head{max-width:660px;margin-bottom:44px}
+.sec-head h2{font-size:clamp(2rem,4.4vw,3.2rem)}
+.sec-head p{margin-top:14px;color:var(--muted);font-size:1.12rem}
+.sec-head .tag{color:var(--c2);margin-bottom:10px;font-weight:600}
+
+.reveal{opacity:0;transform:perspective(1000px) rotateX(22deg) translateY(36px) translateZ(-80px);transform-origin:50% 100%;
+  transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0s)}
+.reveal.in{opacity:1;transform:none}
+
+.tilt{position:relative;transform-style:preserve-3d;transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .25s ease-out;will-change:transform}
+.tilt::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:radial-gradient(260px circle at var(--gx,50%) var(--gy,0%),rgba(255,235,190,.2),transparent 60%);opacity:var(--go,0);transition:opacity .25s}
+.tilt:hover{--go:1}
+.z1{transform:translateZ(22px)} .z2{transform:translateZ(42px)} .z3{transform:translateZ(64px)}
+
+.panel{background:linear-gradient(160deg,var(--panel2),var(--panel));border:1px solid var(--edge);border-radius:24px;
+  box-shadow:0 2px 0 rgba(255,255,255,.07) inset,-14px 22px 38px rgba(0,0,0,.34)}
+
+/* sloka */
+.sloka{display:grid;gap:6px;padding:28px 32px;max-width:780px;margin:0 auto;border-top:4px solid var(--c6)}
+.sloka .dev{font-family:"Noto Serif Devanagari","Mukta",serif;font-size:clamp(1.3rem,2.6vw,1.8rem);line-height:1.7;color:var(--c6)}
+.sloka .by,.sloka .lab{color:var(--muted);font-size:.96rem}
+
+/* services */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:26px}
+.card{display:block;text-decoration:none;padding:24px 22px 22px;border-radius:20px;min-height:236px;cursor:pointer;
+  background:linear-gradient(165deg,color-mix(in srgb,var(--c) 22%,var(--panel2)),var(--panel));
+  border:1px solid color-mix(in srgb,var(--c) 55%,transparent);box-shadow:inset 5px 0 0 var(--c),-10px 18px 30px rgba(0,0,0,.3)}
+.card:hover{box-shadow:inset 5px 0 0 var(--c),-10px 18px 40px color-mix(in srgb,var(--c) 45%,transparent)}
+.card h3{font-size:1.4rem;margin:16px 0 8px;color:var(--text)}
+.card p{color:var(--muted);font-size:1rem;line-height:1.5}
+.card .go{display:inline-block;margin-top:14px;color:var(--c);font-weight:600;filter:brightness(1.1)}
+.coin-wrap{height:52px;transform-style:preserve-3d;perspective:400px}
+.coin{width:48px;height:48px;position:relative;transform-style:preserve-3d;animation:coin 9s linear infinite;animation-delay:var(--cd,0s)}
+.coin i{position:absolute;inset:0;border-radius:50%;display:grid;place-items:center;font-style:normal;font-family:"Marcellus",Georgia,serif;font-size:1.5rem;
+  background:radial-gradient(circle at 35% 30%,#fff3c4,var(--c) 58%,color-mix(in srgb,var(--c) 45%,#000));color:#3a0f26;backface-visibility:hidden;border:2px solid color-mix(in srgb,var(--c) 60%,#fff)}
+.coin i:nth-child(1){transform:translateZ(3px)}
+.coin i:nth-child(2){transform:rotateY(180deg) translateZ(3px)}
+.coin i:nth-child(n+3){backface-visibility:visible;color:transparent;background:color-mix(in srgb,var(--c) 55%,#000)}
+.coin i:nth-child(3){transform:translateZ(1px)} .coin i:nth-child(4){transform:translateZ(-1px)} .coin i:nth-child(5){transform:translateZ(0)}
+@keyframes coin{to{transform:rotateY(360deg)}}
+
+/* app */
+.split{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
+.app ul{list-style:none;padding:0;margin:22px 0 28px;display:grid;gap:10px}
+.app li{padding-left:24px;position:relative}
+.app li::before{content:"✦";position:absolute;left:0;color:var(--c2)}
+.badge{display:inline-block;padding:10px 18px;border:1px dashed var(--edge);border-radius:12px;color:var(--muted);margin:8px 0 0 8px}
+.stage{perspective:1100px;display:grid;place-items:center;min-height:460px;touch-action:pan-y}
+.phone{width:240px;height:470px;position:relative;transform-style:preserve-3d;transform:rotateX(var(--px,6deg)) rotateY(var(--py,-22deg));transition:transform .2s;animation:sway 9s ease-in-out infinite}
+@keyframes sway{50%{translate:0 -12px}}
+.phone .face{position:absolute;inset:0;border-radius:36px}
+.phone .front{background:linear-gradient(170deg,#2A1148,#12061f);border:6px solid #4a2a78;transform:translateZ(8px);padding:18px 14px;color:#FFF3E0;display:flex;flex-direction:column;gap:10px;box-shadow:0 0 0 1px var(--c6)}
+.phone .s1{background:#3a1a64;transform:translateZ(3px)} .phone .s2{background:#26104a;transform:translateZ(-2px)}
+.phone .s3{background:#170a2c;transform:translateZ(-8px);box-shadow:30px 40px 50px rgba(0,0,0,.45)}
+.phone .notch{width:70px;height:6px;border-radius:6px;background:#5a3a8a;margin:0 auto 6px}
+.phone .scr-t{font-family:"Marcellus",Georgia,serif;color:#FFD166;font-size:1.15rem}
+.phone .scr-d{font-size:.8rem;color:#D9C5E0}
+.phone .row{display:flex;justify-content:space-between;gap:8px;border-top:1px solid rgba(255,209,102,.28);padding-top:7px;font-size:.88rem}
+.phone .row b{font-weight:600;color:#FF9F43}
+.phone .z-badge{margin-top:auto;text-align:center;background:linear-gradient(135deg,#FFB347,#FF6B9A);color:#2A0B1F;border-radius:12px;padding:9px;font-weight:600;font-size:.9rem;transform:translateZ(20px)}
+
+/* panchangam */
+.panch{display:grid;grid-template-columns:minmax(260px,360px) 1fr;gap:44px;align-items:start}
+.moonbox{display:grid;gap:14px;justify-items:center;text-align:center;padding:26px;border-radius:24px;border-top:4px solid var(--c5)}
+#moon{width:100%;max-width:300px;aspect-ratio:1;display:block}
+.moonbox .big{font-family:"Marcellus",Georgia,serif;font-size:1.5rem;color:var(--c6)}
+.moonbox .small{color:var(--muted);font-size:.98rem}
+.facts{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:20px}
+.fact{padding:16px 18px;border-radius:16px;background:linear-gradient(165deg,color-mix(in srgb,var(--c) 24%,var(--panel2)),var(--panel));border:1px solid color-mix(in srgb,var(--c) 50%,transparent);box-shadow:inset 0 4px 0 var(--c),-8px 12px 20px rgba(0,0,0,.26)}
+.fact small{display:block;color:var(--muted)}
+.fact b{display:block;font-family:"Marcellus",Georgia,serif;font-weight:400;font-size:1.35rem;color:var(--text);font-variant-numeric:tabular-nums}
+html.te .fact b{font-size:1.2rem}
+.fact em{display:block;font-style:normal;color:var(--c);filter:brightness(1.15);font-size:.95rem;font-variant-numeric:tabular-nums}
+.times{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:30px}
+.times .panel{padding:22px 24px}
+.times h3{font-size:1.35rem;margin-bottom:10px}
+.times .good{border-top:4px solid var(--good)} .times .bad{border-top:4px solid var(--bad)}
+.times .good h3{color:var(--good)} .times .bad h3{color:var(--bad)}
+.times ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.times li{display:flex;justify-content:space-between;gap:12px;border-top:1px solid var(--edge);padding-top:8px;font-variant-numeric:tabular-nums}
+.times li span:last-child{white-space:nowrap}
+.snap{margin-top:22px;color:var(--muted);font-size:.95rem}
+
+/* about */
+.about{display:grid;grid-template-columns:minmax(240px,340px) 1fr;gap:56px;align-items:center}
+.medal-stage{perspective:1000px;display:grid;place-items:center;min-height:340px}
+.medal{width:240px;height:240px;position:relative;transform-style:preserve-3d;transform:rotateX(var(--mx,8deg)) rotateY(var(--my,-16deg));transition:transform .2s;animation:medal 14s ease-in-out infinite}
+@keyframes medal{50%{translate:0 -10px}}
+.medal i{position:absolute;border-radius:50%;inset:0;border:2px solid var(--ext3);background:radial-gradient(circle at 35% 30%,var(--ext1),var(--ext2) 60%,var(--ext3))}
+.medal i:nth-child(1){transform:translateZ(-14px);filter:brightness(.6)} .medal i:nth-child(2){transform:translateZ(-7px);filter:brightness(.8)} .medal i:nth-child(3){transform:translateZ(0)}
+.medal i:nth-child(4){inset:22px;transform:translateZ(10px);background:linear-gradient(150deg,#651C28,#5B2A8C);border-color:var(--ext2)}
+.medal b{position:absolute;inset:0;display:grid;place-items:center;font-family:"Marcellus",Georgia,serif;font-weight:400;font-size:3.6rem;color:var(--ext1);transform:translateZ(36px);text-shadow:0 3px 0 var(--ext3),0 10px 18px rgba(0,0,0,.5)}
+.about h2{font-size:clamp(2rem,4.4vw,3.2rem)}
+.about .role{color:var(--c4);margin:8px 0 18px;font-size:1.15rem;font-weight:600}
+.about .links{display:flex;flex-wrap:wrap;gap:16px 14px;margin-top:26px}
+.about address{font-style:normal;margin-top:22px;display:grid;gap:4px;color:var(--muted)}
+.about address a{color:var(--text);text-decoration:none;font-weight:600}
+.about address a:hover{color:var(--c2)}
+
+/* forms */
+.help{padding:36px;text-align:center;max-width:820px;margin:0 auto;border-top:4px solid var(--c2)}
+.help h2{font-size:clamp(1.8rem,3.6vw,2.6rem);margin-bottom:12px}
+.help p{color:var(--muted);max-width:34em;margin:0 auto 24px}
+.fpanel{max-width:700px;margin:0 auto;padding:32px;border-top:4px solid var(--c3)}
+.fpanel h3{font-size:1.7rem;margin-bottom:8px}
+.fpanel > p{color:var(--muted)}
+.form{display:grid;gap:14px;margin-top:20px}
+.form .two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form label{display:grid;gap:4px;font-weight:600}
+.form input[type=text],.form input[type=tel],.form input[type=date],.form input[type=time],.form input[type=number],.form select,.form textarea{
+  font:inherit;font-weight:400;padding:12px 14px;border-radius:12px;border:1px solid var(--edge);background:color-mix(in srgb,var(--bg) 70%,transparent);color:var(--text);width:100%}
+.form textarea{min-height:110px;resize:vertical}
+.form input:focus,.form select:focus,.form textarea:focus{border-color:var(--c4);outline:2px solid color-mix(in srgb,var(--c4) 50%,transparent)}
+.form .check{display:flex;gap:10px;align-items:flex-start;font-weight:400;color:var(--muted);font-size:.95rem}
+.form .check input{margin-top:6px;accent-color:var(--c2)}
+.form .row{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+.form .fine{font-size:.9rem;color:var(--muted)}
+.form .err{color:var(--bad);font-weight:600;min-height:1.3em}
+.form .msg{color:var(--good);font-weight:600;min-height:1.3em}
+.linkbtn{background:none;border:0;color:var(--muted);font:inherit;text-decoration:underline;cursor:pointer;padding:6px}
+fieldset{border:1px solid var(--edge);border-radius:14px;padding:12px 14px;margin:0;display:grid;gap:12px}
+legend{padding:0 8px;color:var(--c6);font-weight:600}
+
+/* plans */
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:28px;max-width:760px;margin:0 auto}
+.plan{padding:28px 26px;border-radius:24px;text-align:center;display:grid;gap:10px;justify-items:center;border:1px solid var(--edge);
+  background:linear-gradient(160deg,color-mix(in srgb,var(--pc) 28%,var(--panel2)),var(--panel));border-top:5px solid var(--pc);box-shadow:-14px 22px 38px rgba(0,0,0,.34)}
+.plan h3{font-size:1.5rem}
+.plan .price{font-family:"Marcellus",Georgia,serif;font-size:3rem;line-height:1.1;color:var(--pc);filter:brightness(1.15);text-shadow:0 4px 0 color-mix(in srgb,var(--pc) 35%,#000)}
+.plan .price small{font-size:1.1rem;color:var(--muted);text-shadow:none}
+.plan .best{font-size:.9rem;font-weight:600;padding:3px 12px;border-radius:999px;background:var(--pc);color:#1a0a22}
+.benefits{list-style:none;padding:0;margin:26px auto 0;max-width:560px;display:grid;gap:10px}
+.benefits li{padding-left:26px;position:relative}
+.benefits li::before{content:"✦";position:absolute;left:0;color:var(--c4)}
+
+/* footer */
+footer{padding:64px 0 120px;border-top:1px solid var(--edge);background:color-mix(in srgb,var(--bg) 78%,transparent)}
+.fgrid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:36px}
+footer h4{font-family:"Marcellus",Georgia,serif;font-weight:400;font-size:1.2rem;margin:0 0 12px;color:var(--c6)}
+footer ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+footer a{text-decoration:none;color:var(--muted)}
+footer a:hover{color:var(--c2)}
+.fbrand{display:grid;gap:12px;color:var(--muted);justify-items:start}
+.fbrand svg{width:84px;height:84px;color:var(--c1);animation:spin 60s linear infinite}
+.disc{margin-top:40px;padding-top:20px;border-top:1px solid var(--edge);color:var(--muted);font-size:.92rem;display:grid;gap:6px}
+
+/* Ask Astrologer coin */
+.askcoin{position:fixed;right:max(10px,env(safe-area-inset-right,0px));top:50%;margin-top:-70px;z-index:85;display:grid;justify-items:center;gap:8px;background:none;border:0;cursor:pointer;color:var(--text);padding:6px;perspective:500px}
+.ac-stage{display:block;animation:bob 3.2s ease-in-out infinite;position:relative;transform-style:preserve-3d}
+@keyframes bob{50%{translate:0 -8px}}
+.ac-stage::before{content:"";position:absolute;inset:-12px;border-radius:50%;border:2px solid var(--c1);opacity:.6;animation:pulse 2.4s ease-out infinite}
+@keyframes pulse{from{transform:scale(.75);opacity:.8}to{transform:scale(1.35);opacity:0}}
+.ac-coin{display:block;width:76px;height:76px;position:relative;transform-style:preserve-3d;animation:coin 5s linear infinite}
+.ac-coin i{position:absolute;inset:0;border-radius:50%;display:grid;place-items:center;font-style:normal;font-family:"Noto Serif Devanagari",Georgia,serif;font-size:2.3rem;
+  backface-visibility:hidden;background:radial-gradient(circle at 35% 30%,#FFF4B8,var(--c1) 55%,#B8470F);color:#5a1230;border:3px solid #FFD98A;box-shadow:0 0 24px color-mix(in srgb,var(--c1) 70%,transparent)}
+.ac-coin i:nth-child(1){transform:translateZ(6px)} .ac-coin i:nth-child(2){transform:rotateY(180deg) translateZ(6px)}
+.ac-coin i:nth-child(n+3){backface-visibility:visible;color:transparent;background:#C0602A;border-color:#C0602A;box-shadow:none}
+.ac-coin i:nth-child(3){transform:translateZ(3px)} .ac-coin i:nth-child(4){transform:translateZ(0)} .ac-coin i:nth-child(5){transform:translateZ(-3px)}
+.ac-label{background:linear-gradient(135deg,var(--btn-a),var(--btn-b));color:var(--btn-text);padding:5px 12px;border-radius:999px;font-weight:600;font-size:.86rem;box-shadow:0 3px 0 rgba(0,0,0,.3),0 8px 14px rgba(0,0,0,.35);max-width:132px;text-align:center;line-height:1.3}
+.askcoin:hover .ac-label{filter:brightness(1.1)}
+
+.wa{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:80;padding:12px 18px;border-radius:999px;background:#1faa59;color:#fff;font-weight:600;text-decoration:none;box-shadow:0 5px 0 #14753c,0 12px 20px rgba(0,0,0,.35);border:0;cursor:pointer;font-size:1rem}
+.wa:hover{transform:translateY(2px);box-shadow:0 3px 0 #14753c,0 8px 14px rgba(0,0,0,.35)}
+.bottom{display:none}
+
+/* lead sheet on top */
+.scrim{position:fixed;inset:0;z-index:94;background:rgba(10,4,22,.55);opacity:0;visibility:hidden;transition:opacity .3s}
+.scrim.open{opacity:1;visibility:visible}
+.sheet{position:fixed;left:0;right:0;top:env(safe-area-inset-top,0px);z-index:95;display:grid;justify-items:center;padding:12px;pointer-events:none;perspective:1200px;visibility:hidden;max-height:100svh;overflow:auto}
+.sheet.open{visibility:visible}
+.sheet-in{position:relative;width:min(780px,100%);pointer-events:auto;background:linear-gradient(135deg,var(--panel2),var(--panel));border:1px solid var(--edge);border-top:5px solid var(--c1);border-radius:22px;padding:22px 24px 20px;
+  box-shadow:0 30px 70px rgba(0,0,0,.55);transform-origin:50% 0;transform:rotateX(-40deg) translateY(-40px);opacity:0;transition:transform .6s cubic-bezier(.2,.8,.2,1),opacity .4s}
+.sheet.open .sheet-in{transform:none;opacity:1}
+.sheet h3{font-size:1.5rem;margin-bottom:6px;padding-right:40px}
+.sheet .sub{color:var(--muted)}
+.x{position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:50%;border:1px solid var(--edge);background:transparent;color:var(--text);font-size:1.4rem;line-height:1;cursor:pointer}
+.x:hover{background:color-mix(in srgb,var(--c2) 30%,transparent)}
+.dots{display:flex;gap:6px;margin-bottom:12px}
+.dots span{width:26px;height:6px;border-radius:6px;background:var(--edge)}
+.dots span.on{background:linear-gradient(90deg,var(--c1),var(--c2))}
+.sheet .form .two{grid-template-columns:1fr 1fr}
+.pickplans{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0 8px}
+.pick{position:relative;cursor:pointer}
+.pick input{position:absolute;opacity:0;inset:0;cursor:pointer}
+.pick span{display:grid;gap:2px;text-align:center;padding:14px 10px;border-radius:16px;border:2px solid var(--edge);background:color-mix(in srgb,var(--bg) 60%,transparent);transition:transform .2s,border-color .2s,box-shadow .2s}
+.pick b{font-family:"Marcellus",Georgia,serif;font-weight:400;font-size:1.7rem;color:var(--pc)}
+.pick small{color:var(--muted)}
+.pick input:checked + span{border-color:var(--pc);transform:translateY(-3px) scale(1.02);box-shadow:0 10px 24px color-mix(in srgb,var(--pc) 45%,transparent)}
+.pick input:focus-visible + span{outline:3px solid var(--c6);outline-offset:3px}
+
+/* service modal */
+.modal{position:fixed;inset:0;z-index:100;display:none;place-items:center;padding:16px;background:rgba(10,4,22,.62)}
+.modal.open{display:grid}
+.modal-in{position:relative;width:min(660px,100%);max-height:calc(100svh - 32px);overflow:auto;padding:28px;border-radius:24px;border-top:5px solid var(--mc,var(--c3));animation:pop .55s cubic-bezier(.2,.8,.2,1)}
+@keyframes pop{from{opacity:0;transform:perspective(1000px) rotateX(-24deg) scale(.92)}to{opacity:1;transform:none}}
+.modal-in h3{font-size:1.7rem;padding-right:40px}
+.modal-in .sub{color:var(--muted);margin:6px 0 4px}
+
+/* toast */
+.toast{position:fixed;left:50%;bottom:calc(86px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);z-index:110;max-width:min(520px,calc(100% - 24px));padding:14px 18px;border-radius:16px;
+  background:var(--panel2);border:1px solid var(--c4);box-shadow:0 18px 40px rgba(0,0,0,.5);opacity:0;visibility:hidden;transition:opacity .3s,transform .3s;display:grid;gap:10px}
+.toast.show{opacity:1;visibility:visible;transform:translate(-50%,0)}
+.toast .acts{display:flex;gap:10px;flex-wrap:wrap}
+
+.no-webgl #bg{display:none}
+
+@media (max-width:1040px){
+  .nav ul{display:none}
+  .nav .lang{margin-left:auto}
+  .split,.panch,.about{grid-template-columns:1fr;gap:34px}
+  .fgrid{grid-template-columns:1fr 1fr}
+  .times{grid-template-columns:1fr}
+  #bg{opacity:.55}
+}
+@media (max-width:760px){
+  section{padding:68px 0}
+  .pagehead{padding:44px 0 20px}
+  .wrap{padding:0 18px}
+  .brand span{font-size:1.05rem}
+  .phone-link{display:none}
+  .fgrid{grid-template-columns:1fr}
+  .form .two,.sheet .form .two{grid-template-columns:1fr}
+  .pickplans{grid-template-columns:1fr 1fr}
+  .bottom{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;left:0;right:0;bottom:0;z-index:75;background:var(--nav-bg);border-top:1px solid var(--edge);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px))}
+  .bottom a{text-align:center;text-decoration:none;font-size:.82rem;padding:8px 2px;color:var(--text);border-radius:10px}
+  .bottom a.on{background:linear-gradient(135deg,var(--btn-a),var(--btn-b));color:var(--btn-text);font-weight:600}
+  .wa{bottom:calc(76px + env(safe-area-inset-bottom,0px));padding:10px 14px}
+  .askcoin{top:48%}
+  .ac-coin{width:58px;height:58px}.ac-coin i{font-size:1.7rem}
+  .ac-label{font-size:.76rem;max-width:104px;padding:4px 9px}
+  footer{padding-bottom:160px}
+  .token{min-width:0;flex:1 1 140px}
+  .fpanel,.help{padding:24px 18px}
+  .modal-in{padding:22px 18px}
+  .toast{bottom:calc(150px + env(safe-area-inset-bottom,0px))}
+}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="wheel" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+    <circle cx="50" cy="50" r="44"/><circle cx="50" cy="50" r="30"/><circle cx="50" cy="50" r="6" fill="currentColor"/>
+    <path d="M50 6v88M6 50h88M19 19l62 62M81 19L19 81"/>
+    <path d="M50 20l13 22H37z" stroke-width="1.8"/><path d="M50 80L37 58h26z" stroke-width="1.8"/>
+  </symbol>
+</svg>
+
+<canvas id="bg" aria-hidden="true"></canvas>
+
+<div class="page" id="top">
+  <div class="ticker" aria-label="Contact information"><div class="track" id="track"></div></div>
+
+  <header class="top">
+    <div class="wrap nav">
+      <a class="brand" href="#home" data-view="home" aria-label="RudraVastu Astro home">
+        <svg aria-hidden="true"><use href="#wheel"/></svg><span>RudraVastu Astro</span>
+      </a>
+      <ul>
+        <li><a href="#home" data-view="home" data-nav="home" data-i18n="nHome">Home</a></li>
+        <li><a href="#services" data-scroll="services" data-i18n="nServices">Services</a></li>
+        <li><a href="#ask" data-view="ask" data-nav="ask" data-i18n="nAsk">Ask Astrologer</a></li>
+        <li><a href="#subscribe" data-view="subscribe" data-nav="subscribe" data-i18n="nSub">Subscribe</a></li>
+        <li><a href="#contact" data-view="contact" data-nav="contact" data-i18n="nContact">Contact</a></li>
+      </ul>
+      <div class="lang" role="group" aria-label="Language">
+        <button type="button" data-lang="en" aria-pressed="true">ENG</button>
+        <button type="button" data-lang="te" aria-pressed="false" lang="te">తెలుగు</button>
+      </div>
+      <a class="phone-link" href="tel:+919247859061">92478 59061</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- ================= HOME ================= -->
+    <div class="view active" id="view-home">
+      <section class="hero" data-side="right" aria-labelledby="h1">
+        <div class="wrap">
+          <div class="copy" id="heroCopy">
+            <p class="kicker" data-i18n="heroKick">Vedic Astrology · Vastu · Panchangam</p>
+            <h1 id="h1" class="h3d" data-i18n="heroH1">Guidance written in the stars</h1>
+            <p class="lede" data-i18n="heroLede">Pulugurtha Prasad Sharma carries many years of family tradition in astrology — accurate predictions trusted by hundreds of clients, with deep knowledge of Vedic astrology and vastu.</p>
+            <div class="cta">
+              <a class="btn" href="#panchangam" data-scroll="panchangam" data-i18n="btnPanch">Today’s Panchangam</a>
+              <a class="btn teal" href="#" data-svc="matching" data-i18n="btnMatch">Match Kundalis</a>
+              <a class="btn ghost" href="#ask" data-view="ask" data-need="1" data-i18n="btnAsk">Ask Astrologer</a>
+            </div>
+            <div class="tokens">
+              <div class="token" style="--fd:0s;--tc:var(--c1)"><b>✦ ✦ ✦</b><small data-i18n="tok1s">Years of family tradition</small></div>
+              <div class="token" style="--fd:.8s;--tc:var(--c2)"><b data-i18n="tok2b">100s</b><small data-i18n="tok2s">Clients guided</small></div>
+              <div class="token" style="--fd:1.6s;--tc:var(--c4)"><b data-i18n="tok3b">Online + In person</b><small data-i18n="tok3s">Consultations</small></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section data-side="center" style="padding:40px 0 70px" aria-label="Sloka of the day">
+        <div class="wrap">
+          <div class="reveal"><div class="sloka panel tilt" data-tilt="6">
+            <p class="lab z1" data-i18n="slokaLab">Sloka of the day</p>
+            <p class="dev z2" lang="sa">वक्रतुण्ड महाकाय सूर्यकोटिसमप्रभ।<br>निर्विघ्नं कुरु मे देव सर्वकार्येषु सर्वदा॥</p>
+            <p class="tr z1" data-i18n="slokaTr">O curved-trunked, mighty Lord, bright as a crore of suns, make all my work free of obstacles, always.</p>
+            <p class="by z1" data-i18n="slokaBy">— Ganesha Dhyana</p>
+          </div></div>
+          <p style="text-align:center;margin-top:26px" class="reveal">
+            <a href="#" data-svc="nakshatra-phalithalu" style="color:var(--c2);font-weight:600" data-i18n="nakLink">Nakshatra phalithalu you will not find on any other website — only here</a>
+          </p>
+        </div>
+      </section>
+
+      <section id="services" data-side="center" aria-labelledby="svcH">
+        <div class="wrap">
+          <div class="sec-head reveal">
+            <p class="tag" data-i18n="svcTag">Services</p>
+            <h2 id="svcH" class="h3d" data-i18n="svcH">A page and a form for every service</h2>
+            <p data-i18n="svcP">Open any service, fill the details and get your result on the same page.</p>
+          </div>
+          <div class="grid" id="svcGrid"></div>
+        </div>
+      </section>
+
+      <section id="app" data-side="left" aria-labelledby="appH">
+        <div class="wrap split app">
+          <div class="reveal">
+            <h2 id="appH" class="h3d" style="font-size:clamp(2rem,4.4vw,3.2rem)" data-i18n="appH">Get the app on your phone</h2>
+            <p style="margin-top:16px;color:var(--muted);max-width:30em" data-i18n="appP">Add RudraVastu Astro to your home screen and open the daily panchangam like any other app — no store download needed.</p>
+            <ul>
+              <li data-i18n="app1">Opens full screen with its own icon, no browser bar</li>
+              <li data-i18n="app2">Shows the last panchangam you opened even without network</li>
+              <li data-i18n="app3">Updates on its own — nothing to reinstall</li>
+            </ul>
+            <a class="btn teal" href="https://www.rudravastuastro.com/" data-i18n="appBtn">Install app</a>
+            <span class="badge" data-i18n="appBadge">Google Play · Coming soon</span>
+          </div>
+          <div class="stage reveal" id="phoneStage" aria-hidden="true">
+            <div class="phone" id="phone">
+              <div class="face s3"></div><div class="face s2"></div><div class="face s1"></div>
+              <div class="face front">
+                <div class="notch"></div>
+                <div class="scr-t" data-i18n="nPanch">Panchangam</div>
+                <div class="scr-d" data-i18n="phDate">Sunday · 25 Oct 2026 · Hyderabad</div>
+                <div class="row"><span data-i18n="lblTithi">Tithi</span><b data-i18n="vChaturdashi">Chaturdashi</b></div>
+                <div class="row"><span data-i18n="lblNak">Nakshatra</span><b data-i18n="vRevati">Revati</b></div>
+                <div class="row"><span data-i18n="lblYoga">Yoga</span><b data-i18n="vHarshana">Harshana</b></div>
+                <div class="row"><span data-i18n="lblKarana">Karana</span><b data-i18n="vVanija">Vanija</b></div>
+                <div class="row"><span data-i18n="lblMoonRashi">Moon Rashi</span><b data-i18n="vMeenaS">Meena</b></div>
+                <div class="z-badge"><span data-i18n="tAbhijitS">Abhijit</span> 11:36 AM</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="panchangam" data-side="center" aria-labelledby="panH">
+        <div class="wrap">
+          <div class="sec-head reveal">
+            <p class="tag" data-i18n="nPanch">Panchangam</p>
+            <h2 id="panH" class="h3d" data-i18n="panH">Real-Time Panchangam</h2>
+            <p data-i18n="panP">Live Vedic almanac computed astronomically for your date — Lahiri ayanamsa.</p>
+          </div>
+          <div class="panch">
+            <div class="reveal"><div class="moonbox panel tilt" data-tilt="8">
+              <canvas id="moon" class="z2" aria-label="3D moon"></canvas>
+              <div class="big z1" data-i18n="panDate">25 Oct 2026 · Hyderabad</div>
+              <div class="small z1" data-i18n="panSam">Paraabhava Samvatsara | Dakshinayana | Sharad Rutu | Ashwayuja Masa | Shukla Paksha</div>
+              <div class="small z1" data-i18n="panDay">Sunday 2026-10-25 · Hyderabad</div>
+              <div class="z2" style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center">
+                <a class="btn small" href="#" data-svc="panchangam" data-i18n="btnGetPan">Get Panchangam</a>
+                <a class="btn small ghost" href="https://rudravastuastro.com/api/panchangam/download/image?date=2026-10-25&amp;lat=17.385&amp;lon=78.4867" data-i18n="btnDlImg">Download Image</a>
+              </div>
+            </div></div>
+            <div>
+              <div class="facts" id="facts"></div>
+              <div class="times">
+                <div class="reveal"><div class="panel good tilt" data-tilt="6">
+                  <h3 class="z1" data-i18n="goodH">Auspicious Times</h3>
+                  <ul class="z1">
+                    <li><span data-i18n="tAbhijit">Abhijit Muhurta (auspicious)</span><span>11:36 AM – 12:23 PM</span></li>
+                    <li><span data-i18n="tAmrita">Amrita Kalam</span><span>10:59 AM – 12:31 PM</span></li>
+                  </ul>
+                </div></div>
+                <div class="reveal" style="--d:.1s"><div class="panel bad tilt" data-tilt="6">
+                  <h3 class="z1" data-i18n="badH">Inauspicious Times</h3>
+                  <ul class="z1">
+                    <li><span data-i18n="tRahu">Rahu Kalam (avoid)</span><span>04:21 PM – 05:48 PM</span></li>
+                    <li><span data-i18n="tYama">Yamaganda (avoid)</span><span>12:00 PM – 01:27 PM</span></li>
+                    <li><span data-i18n="tDur">Durmuhurtham (avoid)</span><span>04:15 PM – 05:01 PM</span></li>
+                    <li><span data-i18n="tVarj">Varjyam (avoid)</span><span>07:57 AM – 09:28 AM</span></li>
+                  </ul>
+                </div></div>
+              </div>
+              <p class="snap" data-i18n="snap">This page shows the panchangam for 25 Oct 2026, Hyderabad. For any other date or city, use the live service.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section data-side="center" style="padding-top:20px" aria-labelledby="helpH">
+        <div class="wrap">
+          <div class="reveal"><div class="help panel tilt" data-tilt="5">
+            <h2 id="helpH" class="z2" data-i18n="helpH">Not sure which service you need?</h2>
+            <p class="z1" data-i18n="helpP">Send your question and Prasad Sharma garu will guide you to the right consultation.</p>
+            <a class="btn teal z2" href="#" data-wa="Namaste Prasad Sharma garu, I need guidance." ><span data-i18n="waWord">WhatsApp</span>&nbsp;92478 59061</a>
+          </div></div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ================= ASK ================= -->
+    <div class="view" id="view-ask">
+      <section class="pagehead" data-side="right">
+        <div class="wrap">
+          <div class="sec-head">
+            <p class="tag" data-i18n="nAsk">Ask Astrologer</p>
+            <h2 class="h3d" data-i18n="askH">Ask an Astrologer</h2>
+            <p data-i18n="askP">Ask a question in English or Telugu and get an answer right away.</p>
+          </div>
+        </div>
+      </section>
+      <section style="padding-top:10px" data-side="right">
+        <div class="wrap">
+          <div class="fpanel panel tilt" data-tilt="3">
+            <form class="form" id="askForm" novalidate>
+              <div class="two">
+                <label><span data-i18n="lName">Name</span><input type="text" id="aName" autocomplete="name"></label>
+                <label><span data-i18n="lMobile">Mobile number</span><input type="tel" id="aMob" autocomplete="tel" inputmode="tel"></label>
+              </div>
+              <div class="two">
+                <label><span data-i18n="fDob">Date of birth (optional)</span><input type="date" id="aDob"></label>
+                <label><span data-i18n="fTob">Time of birth (optional)</span><input type="time" id="aTob"></label>
+              </div>
+              <label><span data-i18n="fPob">Place of birth (optional)</span><input type="text" id="aPob"></label>
+              <label><span data-i18n="fQ">Your question</span><textarea id="aQ" data-i18n-ph="phQ" placeholder="Type your question in English or Telugu"></textarea></label>
+              <p class="err" id="aErr" role="alert"></p>
+              <div class="row"><button class="btn" type="submit" data-i18n="askSend">Send question</button></div>
+              <p class="fine" data-i18n="askFine">Your question opens in WhatsApp, addressed to Prasad Sharma garu, ready to send.</p>
+            </form>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ================= SUBSCRIBE ================= -->
+    <div class="view" id="view-subscribe">
+      <section class="pagehead" data-side="right">
+        <div class="wrap">
+          <div class="sec-head">
+            <p class="tag" data-i18n="nSub">Subscribe</p>
+            <h2 class="h3d" data-i18n="subH">Subscription</h2>
+            <p data-i18n="subP">₹2 a week or ₹9 a month for the detailed daily Rashi Phalalu.</p>
+          </div>
+        </div>
+      </section>
+      <section style="padding-top:10px" data-side="center">
+        <div class="wrap">
+          <div class="plans">
+            <div class="reveal"><div class="plan tilt" data-tilt="10" style="--pc:var(--c4)">
+              <h3 class="z1" data-i18n="planW">Weekly</h3>
+              <div class="price z2">₹2 <small data-i18n="perW">/ week</small></div>
+              <button class="btn teal z2" type="button" data-plan="week" data-i18n="planBtn">Choose this plan</button>
+            </div></div>
+            <div class="reveal" style="--d:.1s"><div class="plan tilt" data-tilt="10" style="--pc:var(--c1)">
+              <span class="best z1" data-i18n="best">Best value</span>
+              <h3 class="z1" data-i18n="planM">Monthly</h3>
+              <div class="price z2">₹9 <small data-i18n="perM">/ month</small></div>
+              <button class="btn z2" type="button" data-plan="month" data-i18n="planBtn">Choose this plan</button>
+            </div></div>
+          </div>
+          <ul class="benefits">
+            <li data-i18n="ben1">Detailed daily Rashi Phalalu</li>
+            <li data-i18n="ben2">Daily moon-sign guidance with tarabalam, chandrabalam and full planetary gochara</li>
+            <li data-i18n="ben3">A subscription unlocks every service on this website</li>
+          </ul>
+          <p class="snap" style="text-align:center" data-i18n="payNote">We will contact you on WhatsApp to complete the payment.</p>
+        </div>
+      </section>
+    </div>
+
+    <!-- ================= CONTACT ================= -->
+    <div class="view" id="view-contact">
+      <section class="pagehead" data-side="right" style="padding-bottom:0">
+        <div class="wrap">
+          <div class="sec-head" style="margin-bottom:0">
+            <p class="tag" data-i18n="nContact">Contact</p>
+            <h2 class="h3d" data-i18n="conH">Contact &amp; Booking</h2>
+            <p data-i18n="conP">Book a consultation on phone, WhatsApp or in person.</p>
+          </div>
+        </div>
+      </section>
+      <section data-side="left" aria-labelledby="aboutH" style="padding-top:60px">
+        <div class="wrap about">
+          <div class="medal-stage reveal" id="medalStage" aria-hidden="true">
+            <div class="medal" id="medal"><i></i><i></i><i></i><i></i><b>PS</b></div>
+          </div>
+          <div class="reveal">
+            <h2 id="aboutH" class="h3d" data-i18n="aboutName">Pulugurtha Prasad Sharma</h2>
+            <p class="role" data-i18n="aboutRole">Vedic Astrologer &amp; Vastu Consultant</p>
+            <p style="max-width:32em" data-i18n="aboutP">Carrying forward a family tradition of astrology, trusted by hundreds of clients across India for accurate predictions and practical remedies.</p>
+            <address>
+              <a href="tel:+919247859061">92478 59061</a>
+              <a href="mailto:ps@rudravastuastro.com">ps@rudravastuastro.com</a>
+              <span data-i18n="aboutLoc">Telangana, India</span>
+            </address>
+            <div class="links">
+              <a class="btn" href="#" data-wa="Namaste, I would like a consultation" data-i18n="btnBook">Book Consult</a>
+              <a class="btn teal" href="https://www.youtube.com/@pulugurtha" data-i18n="btnYT">Watch on YouTube</a>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section data-side="center" style="padding-top:30px">
+        <div class="wrap">
+          <div class="reveal"><div class="fpanel panel tilt" data-tilt="3" id="offerWrap">
+            <h3 data-i18n="offerH">Get your panchangam and offers first</h3>
+            <p data-i18n="offerP">Leave your mobile number and we will send the daily panchangam, festival dates, new services and special offers on jathakam and vastu consultations.</p>
+            <form class="form" id="offerForm" novalidate>
+              <div class="two">
+                <label><span data-i18n="lName">Name</span><input type="text" id="oName" autocomplete="name"></label>
+                <label><span data-i18n="lMobile">Mobile number</span><input type="tel" id="oMob" autocomplete="tel" inputmode="tel"></label>
+              </div>
+              <label class="check"><input type="checkbox" id="oOk"><span data-i18n="oConsent">I agree to be contacted on WhatsApp/phone about offers, Panchangam and services.</span></label>
+              <p class="err" id="oErr" role="alert"></p>
+              <div class="row">
+                <button class="btn" type="submit" data-i18n="oSend">Send it to me</button>
+                <button class="linkbtn" type="button" id="oNo" data-i18n="oNo">No thanks, maybe later</button>
+              </div>
+              <p class="fine" data-i18n="oFine">We use your contact only to send what you ticked above. No spam, and you can ask us to remove you any time.</p>
+              <p class="msg" id="oMsg" role="status"></p>
+            </form>
+          </div></div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="fgrid">
+        <div class="fbrand">
+          <svg aria-hidden="true"><use href="#wheel"/></svg>
+          <h4 style="margin:0">RudraVastu Astro</h4>
+          <p data-i18n="aboutP">Carrying forward a family tradition of astrology, trusted by hundreds of clients across India for accurate predictions and practical remedies.</p>
+          <a href="https://www.youtube.com/@pulugurtha" data-i18n="btnYT">Watch on YouTube</a>
+        </div>
+        <div><h4 data-i18n="fServ">Services</h4><ul id="fl1"></ul></div>
+        <div><h4 data-i18n="fQuick">Quick links</h4><ul id="fl2"></ul></div>
+        <div>
+          <h4 data-i18n="fCont">Contact</h4>
+          <ul>
+            <li><a href="tel:+919247859061">92478 59061</a></li>
+            <li><a href="mailto:ps@rudravastuastro.com">ps@rudravastuastro.com</a></li>
+            <li><span style="color:var(--muted)" data-i18n="aboutLoc">Telangana, India</span></li>
+            <li style="margin-top:10px"><a class="btn small teal" href="https://www.rudravastuastro.com/" data-i18n="appBtn" style="color:#04141a">Install app</a></li>
+            <li style="color:var(--muted)" data-i18n="appBadge">Google Play · Coming soon</li>
+          </ul>
+        </div>
+      </div>
+      <div class="disc">
+        <p data-i18n="disc">Astrology, panchangam and vastu guidance is offered in the classical Indian tradition for your consideration. It is not a substitute for medical, legal or financial advice.</p>
+        <p data-i18n="copy">© 2026 RudraVastu Astro · All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- Ask Astrologer coin: visible on every page -->
+<button class="askcoin" id="askCoin" type="button" data-view="ask" data-need="1" aria-label="Ask Astrologer">
+  <span class="ac-stage"><span class="ac-coin"><i>ॐ</i><i>ॐ</i><i></i><i></i><i></i></span></span>
+  <span class="ac-label" data-i18n="coinLbl">Ask Astrologer</span>
+</button>
+
+<a class="wa" href="#" data-wa="Namaste, I would like a consultation" aria-label="Chat on WhatsApp">WhatsApp</a>
+
+<nav class="bottom" aria-label="Quick navigation">
+  <a href="#home" data-view="home" data-nav="home" data-i18n="nHome">Home</a>
+  <a href="#services" data-scroll="services" data-i18n="nServices">Services</a>
+  <a href="#panchangam" data-scroll="panchangam" data-i18n="nPanch">Panchangam</a>
+  <a href="#subscribe" data-view="subscribe" data-nav="subscribe" data-i18n="nSub">Subscribe</a>
+  <a href="#contact" data-view="contact" data-nav="contact" data-i18n="nContact">Contact</a>
+</nav>
+
+<!-- Lead form that drops down from the top -->
+<div class="scrim" id="scrim"></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sh1H">
+  <div class="sheet-in">
+    <button class="x" id="shX" type="button" aria-label="Close">×</button>
+    <div class="dots" aria-hidden="true"><span class="on" id="dot1"></span><span id="dot2"></span></div>
+
+    <div id="step1">
+      <h3 id="sh1H" data-i18n="sh1H">Enter your mobile number to continue</h3>
+      <p class="sub" data-i18n="sh1P">We need your name and mobile number to use our services.</p>
+      <form class="form" id="leadForm" novalidate>
+        <div class="two">
+          <label><span data-i18n="lName">Name</span><input type="text" id="lName" autocomplete="name"></label>
+          <label><span data-i18n="lMobile">Mobile number</span><input type="tel" id="lMob" autocomplete="tel" inputmode="tel"></label>
+        </div>
+        <label class="check"><input type="checkbox" id="lOk"><span data-i18n="shConsent">I agree to be contacted on WhatsApp/phone about my request.</span></label>
+        <p class="err" id="lErr" role="alert"></p>
+        <div class="row"><button class="btn" type="submit" data-i18n="shCont">Continue</button></div>
+      </form>
+    </div>
+
+    <div id="step2" hidden>
+      <h3 data-i18n="sh2H">Choose your subscription plan</h3>
+      <p class="sub" data-i18n="sh2P">A subscription is needed to use our services.</p>
+      <form class="form" id="planForm" novalidate>
+        <div class="pickplans">
+          <label class="pick" style="--pc:var(--c4)"><input type="radio" name="plan" value="week"><span><b>₹2</b><small data-i18n="perW2">per week</small></span></label>
+          <label class="pick" style="--pc:var(--c1)"><input type="radio" name="plan" value="month" checked><span><b>₹9</b><small data-i18n="perM2">per month · best value</small></span></label>
+        </div>
+        <p class="fine" data-i18n="payNote">We will contact you on WhatsApp to complete the payment.</p>
+        <div class="row"><button class="btn" type="submit" data-i18n="shSub">Subscribe</button></div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Service request dialog -->
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mT">
+  <div class="modal-in panel">
+    <button class="x" id="mX" type="button" aria-label="Close">×</button>
+    <h3 id="mT"></h3>
+    <p class="sub" id="mD"></p>
+    <form class="form" id="svcForm" novalidate>
+      <div class="two">
+        <label><span data-i18n="lName">Name</span><input type="text" id="sName" autocomplete="name"></label>
+        <label><span data-i18n="lMobile">Mobile number</span><input type="tel" id="sMob" autocomplete="tel" inputmode="tel"></label>
+      </div>
+      <div class="form" id="mFields" style="margin-top:0"></div>
+      <p class="err" id="sErr" role="alert"></p>
+      <div class="row">
+        <button class="btn" type="submit" data-i18n="mSend">Send on WhatsApp</button>
+        <a class="btn small ghost" id="mOrig" href="#" data-i18n="mOrig">Open original service page</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"><div id="toastMsg"></div><div class="acts" id="toastActs"></div></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+  'use strict';
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var WA = '919247859061', SITE = 'https://www.rudravastuastro.com/';
+
+  /* ============ Telugu dictionary (English is read from the page itself) ============ */
+  var TE = {
+    nHome:'హోమ్', nServices:'సేవలు', nAsk:'జ్యోతిష్కుడిని అడగండి', nSub:'సబ్‌స్క్రైబ్', nContact:'సంప్రదించండి', nPanch:'పంచాంగం',
+    heroKick:'వైదిక జ్యోతిష్యం · వాస్తు · పంచాంగం',
+    heroH1:'నక్షత్రాలలో రాసిన మార్గదర్శనం',
+    heroLede:'పులుగుర్త ప్రసాద్ శర్మ గారు తరతరాల కుటుంబ జ్యోతిష సంప్రదాయాన్ని కొనసాగిస్తున్నారు — వందలాది క్లయింట్లు నమ్మిన ఖచ్చితమైన అంచనాలు, వైదిక జ్యోతిష్యం మరియు వాస్తులో లోతైన జ్ఞానం.',
+    btnPanch:'ఈ రోజు పంచాంగం', btnMatch:'కుండలి మేళనం', btnAsk:'జ్యోతిష్కుడిని అడగండి',
+    tok1s:'తరతరాల సంప్రదాయం', tok2b:'వందలు', tok2s:'మార్గదర్శనం పొందిన క్లయింట్లు', tok3b:'ఆన్‌లైన్ + ప్రత్యక్షం', tok3s:'సంప్రదింపులు',
+    slokaLab:'ఈ రోజు శ్లోకం',
+    slokaTr:'వంకర తొండం కలవాడా, మహాకాయుడా, కోటి సూర్యుల తేజస్సు కలవాడా, దేవా — నా సకల కార్యాలను ఎల్లప్పుడూ విఘ్నాలు లేకుండా చేయుము.',
+    slokaBy:'— గణేశ ధ్యానం',
+    nakLink:'నక్షత్ర ఫలితాలు మరే వెబ్‌సైట్‌లో లభించవు — ఇక్కడ మాత్రమే',
+    svcTag:'సేవలు', svcH:'ప్రతి సేవకూ ఒక పేజీ, ఒక ఫారం', svcP:'ఏదైనా సేవను తెరవండి, వివరాలు నింపండి, అదే పేజీలో ఫలితం పొందండి.',
+    appH:'మీ ఫోన్‌లో యాప్ పొందండి',
+    appP:'RudraVastu Astro ని మీ హోమ్ స్క్రీన్‌కు జోడించి, ఇతర యాప్‌లా రోజువారీ పంచాంగం తెరవండి — స్టోర్ డౌన్‌లోడ్ అవసరం లేదు.',
+    app1:'బ్రౌజర్ బార్ లేకుండా, సొంత ఐకాన్‌తో పూర్తి స్క్రీన్‌లో తెరుచుకుంటుంది',
+    app2:'నెట్‌వర్క్ లేకపోయినా మీరు చివరగా తెరిచిన పంచాంగం కనిపిస్తుంది',
+    app3:'తనంతట తానే అప్‌డేట్ అవుతుంది — మళ్లీ ఇన్‌స్టాల్ చేయనవసరం లేదు',
+    appBtn:'యాప్ ఇన్‌స్టాల్ చేయండి', appBadge:'గూగుల్ ప్లే · త్వరలో',
+    phDate:'ఆదివారం · 25 అక్టోబర్ 2026 · హైదరాబాద్',
+    lblTithi:'తిథి', lblNak:'నక్షత్రం', lblYoga:'యోగం', lblKarana:'కరణం', lblMoonRashi:'చంద్ర రాశి', lblLagna:'సూర్యోదయ లగ్నం',
+    lblSunrise:'సూర్యోదయం', lblSunset:'సూర్యాస్తమయం', lblMoonrise:'చంద్రోదయం', lblMoonset:'చంద్రాస్తమయం',
+    vChaturdashi:'చతుర్దశి', vRevati:'రేవతి', vRevatiP:'రేవతి (పాదం 2)', vHarshana:'హర్షణ', vVanija:'వణిజ', vMeenaS:'మీనం', vMeena:'మీనం (Pisces)', vTula:'తుల (Libra)',
+    tAbhijitS:'అభిజిత్', ends:'ముగింపు',
+    panH:'రియల్-టైమ్ పంచాంగం', panP:'మీ తేదీ కోసం ఖగోళ గణితంతో లెక్కించిన వైదిక పంచాంగం — లాహిరి అయనాంశ.',
+    panDate:'25 అక్టోబర్ 2026 · హైదరాబాద్',
+    panSam:'పరాభవ నామ సంవత్సరం | దక్షిణాయనం | శరదృతువు | ఆశ్వయుజ మాసం | శుక్ల పక్షం',
+    panDay:'ఆదివారం 2026-10-25 · హైదరాబాద్',
+    btnGetPan:'పంచాంగం చూడండి', btnDlImg:'చిత్రం డౌన్‌లోడ్',
+    goodH:'శుభ సమయాలు', badH:'అశుభ సమయాలు',
+    tAbhijit:'అభిజిత్ ముహూర్తం (శుభం)', tAmrita:'అమృత కాలం', tRahu:'రాహు కాలం (నివారించండి)', tYama:'యమగండం (నివారించండి)', tDur:'దుర్ముహూర్తం (నివారించండి)', tVarj:'వర్జ్యం (నివారించండి)',
+    snap:'ఈ పేజీలో 2026 అక్టోబర్ 25, హైదరాబాద్ పంచాంగం చూపబడింది. ఇతర తేదీలు, నగరాలకు లైవ్ సేవను ఉపయోగించండి.',
+    helpH:'ఏ సేవ కావాలో తెలియదా?', helpP:'మీ ప్రశ్న పంపండి, ప్రసాద్ శర్మ గారు మీకు సరైన సంప్రదింపుకు మార్గనిర్దేశం చేస్తారు.', waWord:'వాట్సాప్',
+    askH:'జ్యోతిష్కుడిని అడగండి', askP:'ఇంగ్లీష్ లేదా తెలుగులో ప్రశ్న అడిగి వెంటనే సమాధానం పొందండి.',
+    lName:'పేరు', lMobile:'మొబైల్ నంబర్', fDob:'పుట్టిన తేదీ (ఐచ్ఛికం)', fTob:'పుట్టిన సమయం (ఐచ్ఛికం)', fPob:'పుట్టిన ప్రదేశం (ఐచ్ఛికం)', fQ:'మీ ప్రశ్న',
+    askSend:'ప్రశ్న పంపండి', askFine:'మీ ప్రశ్న ప్రసాద్ శర్మ గారికి వాట్సాప్‌లో పంపడానికి సిద్ధంగా తెరుచుకుంటుంది.',
+    subH:'సబ్‌స్క్రిప్షన్', subP:'వివరమైన రోజువారీ రాశి ఫలాల కోసం వారానికి ₹2 లేదా నెలకు ₹9.',
+    planW:'వారం', perW:'/ వారం', planM:'నెల', perM:'/ నెల', best:'ఉత్తమ విలువ', planBtn:'ఈ ప్లాన్ ఎంచుకోండి',
+    ben1:'వివరమైన రోజువారీ రాశి ఫలాలు', ben2:'తారాబలం, చంద్రబలం మరియు పూర్తి గ్రహ గోచారంతో రోజువారీ చంద్ర రాశి మార్గదర్శనం', ben3:'సబ్‌స్క్రిప్షన్‌తో ఈ వెబ్‌సైట్‌లోని అన్ని సేవలు ఉపయోగించవచ్చు',
+    payNote:'చెల్లింపు పూర్తి చేయడానికి వాట్సాప్‌లో మిమ్మల్ని సంప్రదిస్తాము.',
+    conH:'సంప్రదింపు & బుకింగ్', conP:'ఫోన్, వాట్సాప్ లేదా ప్రత్యక్షంగా సంప్రదింపు బుక్ చేయండి.',
+    aboutName:'పులుగుర్త ప్రసాద్ శర్మ', aboutRole:'వైదిక జ్యోతిష్కులు & వాస్తు సలహాదారు',
+    aboutP:'తరతరాల కుటుంబ జ్యోతిష సంప్రదాయాన్ని కొనసాగిస్తూ, ఖచ్చితమైన అంచనాలు మరియు ఆచరణాత్మక పరిహారాలతో భారతదేశమంతటా వందలాది క్లయింట్ల నమ్మకాన్ని పొందారు.',
+    aboutLoc:'తెలంగాణ, భారతదేశం', btnBook:'సంప్రదింపు బుక్ చేయండి', btnYT:'యూట్యూబ్‌లో చూడండి',
+    offerH:'మీ పంచాంగం, ఆఫర్లు ముందుగా పొందండి',
+    offerP:'మీ మొబైల్ నంబర్ ఇవ్వండి — రోజువారీ పంచాంగం, పండుగ తేదీలు, కొత్త సేవలు, జాతకం మరియు వాస్తు సంప్రదింపులపై ప్రత్యేక ఆఫర్లు పంపుతాము.',
+    oConsent:'ఆఫర్లు, పంచాంగం మరియు సేవల గురించి వాట్సాప్/ఫోన్ ద్వారా సంప్రదించడానికి నేను అంగీకరిస్తున్నాను.',
+    oSend:'నాకు పంపండి', oNo:'వద్దు, తర్వాత చూస్తాను',
+    oFine:'మీరు టిక్ చేసిన వాటిని పంపడానికి మాత్రమే మీ సంప్రదింపు వివరాలు వాడతాము. స్పామ్ ఉండదు, ఎప్పుడైనా తొలగించమని అడగవచ్చు.',
+    fServ:'సేవలు', fQuick:'త్వరిత లింకులు', fCont:'సంప్రదింపు',
+    disc:'జ్యోతిష్యం, పంచాంగం మరియు వాస్తు మార్గదర్శనం సంప్రదాయ భారతీయ పద్ధతిలో మీ పరిశీలన కోసం అందించబడుతుంది. ఇది వైద్య, న్యాయ లేదా ఆర్థిక సలహాకు ప్రత్యామ్నాయం కాదు.',
+    copy:'© 2026 RudraVastu Astro · అన్ని హక్కులు ప్రత్యేకించబడ్డాయి.',
+    coinLbl:'జ్యోతిష్కుడిని అడగండి',
+    sh1H:'కొనసాగడానికి మీ మొబైల్ నంబర్ ఇవ్వండి', sh1P:'మా సేవలను ఉపయోగించడానికి మీ పేరు మరియు మొబైల్ నంబర్ అవసరం.',
+    shConsent:'నా అభ్యర్థన గురించి వాట్సాప్/ఫోన్ ద్వారా సంప్రదించడానికి నేను అంగీకరిస్తున్నాను.', shCont:'కొనసాగించండి',
+    sh2H:'మీ సబ్‌స్క్రిప్షన్ ప్లాన్ ఎంచుకోండి', sh2P:'మా సేవలను ఉపయోగించడానికి సబ్‌స్క్రిప్షన్ అవసరం.',
+    perW2:'వారానికి', perM2:'నెలకు · ఉత్తమ విలువ', shSub:'సబ్‌స్క్రైబ్ చేయండి',
+    mSend:'వాట్సాప్‌లో పంపండి', mOrig:'అసలు సేవ పేజీని తెరవండి'
+  };
+  var TEPH = { phQ:'మీ ప్రశ్నను ఇంగ్లీష్ లేదా తెలుగులో రాయండి' };
+
+  var lang = 'en';
+  try { lang = localStorage.getItem('rv_lang') || 'en'; } catch(e){}
+  if (lang !== 'te') lang = 'en';
+  function tr(en, te){ return lang === 'te' ? te : en; }
+
+  var i18nEls = Array.prototype.slice.call(document.querySelectorAll('[data-i18n]'));
+  i18nEls.forEach(function(el){ el.setAttribute('data-en', el.textContent); });
+  var phEls = Array.prototype.slice.call(document.querySelectorAll('[data-i18n-ph]'));
+  phEls.forEach(function(el){ el.setAttribute('data-en', el.getAttribute('placeholder')); });
+
+  /* ============ services ============ */
+  var SV = [
+    {id:'panchangam', slug:'panchangam', g:'D', t:'panch', en:['Daily Panchangam','Tithi, nakshatra, yoga, karana and every shubha / ashubha timing for any date and city.'], te:['దినపంచాంగం','ఏ తేదీ, ఏ నగరానికైనా తిథి, నక్షత్రం, యోగం, కరణం మరియు అన్ని శుభ / అశుభ సమయాలు.']},
+    {id:'rashi-phalalu', slug:'rashi-phalalu', g:'R', t:'rashi', en:['Rashi Phalalu','Daily moon-sign guidance with tarabalam, chandrabalam and full planetary gochara.'], te:['రాశి ఫలాలు','తారాబలం, చంద్రబలం మరియు పూర్తి గ్రహ గోచారంతో రోజువారీ చంద్ర రాశి మార్గదర్శనం.']},
+    {id:'jathakam', slug:'jathakam', g:'J', t:'birth', en:['Jathakam (Birth Chart)','Complete horoscope — lagna, grahas, navamsa, dasha, yogas, doshas and remedies.'], te:['జాతకం (జన్మ కుండలి)','సంపూర్ణ జాతకం — లగ్నం, గ్రహాలు, నవాంశ, దశ, యోగాలు, దోషాలు మరియు పరిహారాలు.']},
+    {id:'matching', slug:'matching', g:'M', t:'match', en:['Marriage Matching','Ashtakoota 36-point milan with kuja dosha and papa samyam analysis.'], te:['వివాహ పొంతన','కుజ దోషం మరియు పాప సామ్యం విశ్లేషణతో అష్టకూట 36 గుణాల మేళనం.']},
+    {id:'muhurtham', slug:'muhurtham', g:'M', t:'muhurtham', en:['Muhurtham Finder','Auspicious dates for wedding, griha pravesham, prathistha, namakaranam and more.'], te:['ముహూర్త నిర్ణయం','వివాహం, గృహప్రవేశం, ప్రతిష్ఠ, నామకరణం మొదలైన వాటికి శుభ తేదీలు.']},
+    {id:'nakshatra-phalithalu', slug:'nakshatra-phalithalu', g:'N', t:'nakshatra', en:['Nakshatra Phalithalu','Your birth star in full — lord, deity, gana, yoni, nadi, nature, career and remedies.'], te:['నక్షత్ర ఫలితాలు','మీ జన్మ నక్షత్రం పూర్తిగా — అధిపతి, దేవత, గణం, యోని, నాడి, స్వభావం, వృత్తి మరియు పరిహారాలు.']},
+    {id:'vastu', slug:'vastu', g:'V', t:'vastu', en:['Vastu Consultation','Direction-wise guidance for home, shop and plot — from Vastu Vijnana Chandrika.'], te:['వాస్తు సంప్రదింపు','ఇల్లు, దుకాణం, స్థలానికి దిశల వారీ మార్గదర్శనం — వాస్తు విజ్ఞాన చంద్రిక నుండి.']},
+    {id:'yantralu', slug:'yantralu', g:'Y', t:'yantra', en:['Yantralu','Which yantra suits your need — deity, metal, direction, day and mantra from the classical manuals.'], te:['యంత్రాలు','మీ అవసరానికి ఏ యంత్రం సరిపోతుంది — దేవత, లోహం, దిశ, రోజు మరియు మంత్రం, శాస్త్రీయ గ్రంథాల ప్రకారం.']},
+    {id:'prashna-sastram', slug:'prashna-sastram', g:'P', t:'prashna', en:['Prashna Sastram','Ask one question with a number from 1 to 108 and get the horary chart judged on the spot.'], te:['ప్రశ్న శాస్త్రం','1 నుండి 108 మధ్య ఒక సంఖ్యతో ఒక ప్రశ్న అడగండి, అక్కడికక్కడే ప్రశ్న కుండలి ఫలితం పొందండి.']},
+    {id:'numerology', slug:'numerology', g:'N', t:'number', en:['Numerology','Life path, destiny, soul urge and lucky numbers from your name and date of birth.'], te:['సంఖ్యా శాస్త్రం','మీ పేరు, పుట్టిన తేదీ నుండి జీవిత సంఖ్య, విధి సంఖ్య, ఆత్మ కోరిక మరియు అదృష్ట సంఖ్యలు.']},
+    {id:'lo-shu-grid', slug:'lo-shu-grid', g:'L', t:'loshu', en:['Lo Shu Grid','The 9-box birth-date grid — missing numbers, repeated numbers and arrows of strength.'], te:['లో షు గ్రిడ్','పుట్టిన తేదీ 9-గదుల గ్రిడ్ — లేని సంఖ్యలు, పునరావృత సంఖ్యలు మరియు బలాల బాణాలు.']},
+    {id:'ask-astrologer', slug:'ask-astrologer', g:'A', view:'ask', en:['Ask an Astrologer','Ask a question in English or Telugu and get an answer right away.'], te:['జ్యోతిష్కుడిని అడగండి','ఇంగ్లీష్ లేదా తెలుగులో ప్రశ్న అడిగి వెంటనే సమాధానం పొందండి.']},
+    {id:'pooja-packet', slug:'pooja-packet', g:'P', t:'pooja', en:['Pooja Prasadam Packet','₹9 a packet — we perform the pooja in your name and deliver the prasadam to your home.'], te:['పూజా ప్రసాదం ప్యాకెట్','ప్యాకెట్‌కు ₹9 — మీ పేరు మీద పూజ చేసి, ప్రసాదాన్ని మీ ఇంటికి పంపుతాము.']},
+    {id:'subscribe', slug:'subscribe', g:'S', view:'subscribe', en:['Subscription','₹2 a week or ₹9 a month for the detailed daily Rashi Phalalu.'], te:['సబ్‌స్క్రిప్షన్','వివరమైన రోజువారీ రాశి ఫలాల కోసం వారానికి ₹2 లేదా నెలకు ₹9.']},
+    {id:'contact', slug:'contact', g:'C', view:'contact', en:['Contact & Booking','Book a consultation on phone, WhatsApp or in person.'], te:['సంప్రదింపు & బుకింగ్','ఫోన్, వాట్సాప్ లేదా ప్రత్యక్షంగా సంప్రదింపు బుక్ చేయండి.']}
+  ];
+  function svcById(id){ for (var i=0;i<SV.length;i++) if (SV[i].id===id) return SV[i]; return null; }
+  function svcName(s){ return lang==='te' ? s.te[0] : s.en[0]; }
+
+  /* ============ field definitions for the service dialog ============ */
+  var RASHI = [['Mesha (Aries)','మేషం'],['Vrishabha (Taurus)','వృషభం'],['Mithuna (Gemini)','మిథునం'],['Karka (Cancer)','కర్కాటకం'],['Simha (Leo)','సింహం'],['Kanya (Virgo)','కన్య'],['Tula (Libra)','తుల'],['Vrischika (Scorpio)','వృశ్చికం'],['Dhanu (Sagittarius)','ధనుస్సు'],['Makara (Capricorn)','మకరం'],['Kumbha (Aquarius)','కుంభం'],['Meena (Pisces)','మీనం']];
+  var NAK = [['Ashwini','అశ్వని'],['Bharani','భరణి'],['Krittika','కృత్తిక'],['Rohini','రోహిణి'],['Mrigashira','మృగశిర'],['Ardra','ఆరుద్ర'],['Punarvasu','పునర్వసు'],['Pushya','పుష్యమి'],['Ashlesha','ఆశ్లేష'],['Magha','మఖ'],['Purva Phalguni','పుబ్బ'],['Uttara Phalguni','ఉత్తర'],['Hasta','హస్త'],['Chitra','చిత్త'],['Swati','స్వాతి'],['Vishakha','విశాఖ'],['Anuradha','అనూరాధ'],['Jyeshtha','జ్యేష్ఠ'],['Mula','మూల'],['Purva Ashadha','పూర్వాషాఢ'],['Uttara Ashadha','ఉత్తరాషాఢ'],['Shravana','శ్రవణం'],['Dhanishta','ధనిష్ఠ'],['Shatabhisha','శతభిషం'],['Purva Bhadrapada','పూర్వాభాద్ర'],['Uttara Bhadrapada','ఉత్తరాభాద్ర'],['Revati','రేవతి']];
+  var EVENT = [['Wedding','వివాహం'],['Griha pravesham','గృహప్రవేశం'],['Prathistha','ప్రతిష్ఠ'],['Namakaranam','నామకరణం'],['Other','ఇతరం']];
+  var PROP = [['Home','ఇల్లు'],['Shop','దుకాణం'],['Plot','స్థలం'],['Office','కార్యాలయం']];
+  var FACE = [['North','ఉత్తరం'],['North-East','ఈశాన్యం'],['East','తూర్పు'],['South-East','ఆగ్నేయం'],['South','దక్షిణం'],['South-West','నైరుతి'],['West','పడమర'],['North-West','వాయవ్యం'],['Not sure','తెలియదు']];
+  var NEED = [['Wealth','ధనం'],['Health','ఆరోగ్యం'],['Protection','రక్షణ'],['Career','వృత్తి'],['Marriage','వివాహం'],['Education','విద్య'],['Other','ఇతరం']];
+  var FD = {
+    date:['Date','తేదీ','date'], city:['City / place','నగరం / ప్రదేశం','text'], rashi:['Moon sign (rashi)','చంద్ర రాశి','select',RASHI],
+    dob:['Date of birth','పుట్టిన తేదీ','date'], tob:['Time of birth','పుట్టిన సమయం','time'], pob:['Place of birth','పుట్టిన ప్రదేశం','text'], q:['Your question (optional)','మీ ప్రశ్న (ఐచ్ఛికం)','textarea'],
+    gname:['Groom’s name','వరుడి పేరు','text'], gdob:['Groom’s date of birth','వరుడి పుట్టిన తేదీ','date'], gtob:['Groom’s time of birth','వరుడి పుట్టిన సమయం','time'], gpob:['Groom’s place of birth','వరుడి పుట్టిన ప్రదేశం','text'],
+    bname:['Bride’s name','వధువు పేరు','text'], bdob:['Bride’s date of birth','వధువు పుట్టిన తేదీ','date'], btob:['Bride’s time of birth','వధువు పుట్టిన సమయం','time'], bpob:['Bride’s place of birth','వధువు పుట్టిన ప్రదేశం','text'],
+    event:['Event','కార్యక్రమం','select',EVENT], from:['From date','ప్రారంభ తేదీ','date'], to:['To date','చివరి తేదీ','date'],
+    nakshatra:['Birth star (nakshatra)','జన్మ నక్షత్రం','select',NAK],
+    property:['Property type','ఆస్తి రకం','select',PROP], facing:['Main entrance faces','ప్రధాన ద్వారం దిశ','select',FACE], notes:['Notes','వివరాలు','textarea'],
+    need:['What do you need it for?','ఏ అవసరానికి?','select',NEED],
+    pnum:['Number from 1 to 108','1 నుండి 108 సంఖ్య','number'], qreq:['Your question','మీ ప్రశ్న','textarea'],
+    fullname:['Full name (as you use it)','పూర్తి పేరు','text'],
+    gotram:['Gotram','గోత్రం','text'], addr:['Delivery address','చిరునామా','textarea'], wish:['Sankalpam / wish','సంకల్పం / కోరిక','textarea']
+  };
+  var SPEC = {
+    panch:['date','city'], rashi:['rashi'], birth:['dob','tob','pob','q'],
+    match:['gname','gdob','gtob','gpob','bname','bdob','btob','bpob'],
+    muhurtham:['event','from','to','city'], nakshatra:['nakshatra'], vastu:['property','facing','notes'],
+    yantra:['need'], prashna:['pnum','qreq'], number:['fullname','dob'], loshu:['dob'], pooja:['gotram','nakshatra','addr','wish']
+  };
+
+  /* ============ small helpers ============ */
+  var $ = function(id){ return document.getElementById(id); };
+  var toastEl = $('toast'), toastT;
+  function toast(msg, acts, ms){
+    $('toastMsg').textContent = msg;
+    var box = $('toastActs'); box.innerHTML = '';
+    (acts || []).forEach(function(a){
+      var b = document.createElement('button'); b.type = 'button'; b.className = 'btn small teal'; b.textContent = a.label;
+      b.addEventListener('click', function(){ a.fn(); }); box.appendChild(b);
+    });
+    toastEl.classList.add('show'); clearTimeout(toastT);
+    toastT = setTimeout(function(){ toastEl.classList.remove('show'); }, ms || (acts && acts.length ? 14000 : 5000));
+  }
+  function copyText(txt){
+    var done = function(){ toast(tr('Copied.', 'కాపీ అయింది.')); };
+    try { navigator.clipboard.writeText(txt).then(done, function(){ fallbackCopy(txt, done); }); }
+    catch(e){ fallbackCopy(txt, done); }
+  }
+  function fallbackCopy(txt, done){
+    var ta = document.createElement('textarea'); ta.value = txt; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); done(); } catch(e){} document.body.removeChild(ta);
+  }
+  /* open a link; if the preview blocks new windows, offer the link to copy */
+  function ext(url, copyPayload){
+    var w = null;
+    try { w = window.open(url, '_blank'); } catch(e){}
+    if (w){ try { w.opener = null; } catch(e2){} return; }
+    toast(tr('This preview can’t open new windows. Copy it and open it in your browser.', 'ఈ ప్రివ్యూలో కొత్త విండో తెరవడం సాధ్యం కాదు. కాపీ చేసి మీ బ్రౌజర్‌లో తెరవండి.'),
+      [{label: tr('Copy', 'కాపీ'), fn: function(){ copyText(copyPayload || url); }}]);
+  }
+  function sendWA(text){ ext('https://wa.me/' + WA + '?text=' + encodeURIComponent(text), text + '\n\nWhatsApp: +91 92478 59061'); }
+  function cleanMobile(v){ return String(v || '').replace(/[\s\-().]/g, ''); }
+  function validMobile(v){ return /^\+?\d{10,14}$/.test(cleanMobile(v)); }
+
+  /* ============ saved visitor details (this browser only) ============ */
+  var lead = null;
+  try { lead = JSON.parse(localStorage.getItem('rv_lead') || 'null'); } catch(e){}
+  function saveLead(){ try { localStorage.setItem('rv_lead', JSON.stringify(lead)); } catch(e){} }
+
+  /* ============ language ============ */
+  function applyLang(){
+    document.documentElement.lang = lang;
+    document.documentElement.classList.toggle('te', lang === 'te');
+    i18nEls.forEach(function(el){
+      var k = el.getAttribute('data-i18n');
+      el.textContent = (lang === 'te' && TE[k]) ? TE[k] : el.getAttribute('data-en');
+    });
+    phEls.forEach(function(el){ var k = el.getAttribute('data-i18n-ph'); el.setAttribute('placeholder', (lang === 'te' && TEPH[k]) ? TEPH[k] : el.getAttribute('data-en')); });
+    document.querySelectorAll('.lang button').forEach(function(b){ b.setAttribute('aria-pressed', b.getAttribute('data-lang') === lang ? 'true' : 'false'); });
+    renderServices(false); renderFacts(); renderTicker(); renderFooterLinks();
+    if (modalSvc && $('modal').classList.contains('open')) buildModal(modalSvc, true);
+  }
+  document.querySelectorAll('.lang button').forEach(function(b){
+    b.addEventListener('click', function(){
+      lang = b.getAttribute('data-lang');
+      try { localStorage.setItem('rv_lang', lang); } catch(e){}
+      applyLang();
+    });
+  });
+
+  /* ============ ticker ============ */
+  function renderTicker(){
+    var msg = tr('Pulugurtha Prasad Sharma ✦ 92478 59061 ✦ For any type of consultation — Jathakam, Vastu, Muhurtham, Pariharam ✦',
+                 'పులుగుర్త ప్రసాద్ శర్మ ✦ 92478 59061 ✦ జాతకం, వాస్తు, ముహూర్తం, పరిహారం — ఏ రకమైన సంప్రదింపుకైనా ✦');
+    var html = '', i;
+    for (i = 0; i < 16; i++) html += '<span' + (i >= 8 ? ' aria-hidden="true"' : '') + '>' + msg + '</span>';
+    $('track').innerHTML = html;
+  }
+
+  /* ============ panchangam facts ============ */
+  function renderFacts(){
+    var E = tr('Ends at', 'ముగింపు');
+    var rows = [
+      ['lblSunrise','Sunrise','06:11 AM',null,null,'var(--c1)'],
+      ['lblSunset','Sunset','05:48 PM',null,null,'var(--c2)'],
+      ['lblMoonrise','Moonrise','05:03 PM',null,null,'var(--c5)'],
+      ['lblMoonset','Moonset','05:06 AM',null,null,'var(--c3)'],
+      ['lblTithi','Tithi','Chaturdashi','vChaturdashi','11:56 AM','var(--c4)'],
+      ['lblNak','Nakshatra','Revati (Pada 2)','vRevatiP','07:22 PM','var(--c6)'],
+      ['lblYoga','Yoga','Harshana','vHarshana','05:22 PM','var(--c1)'],
+      ['lblKarana','Karana','Vanija','vVanija','11:56 AM','var(--c2)'],
+      ['lblMoonRashi','Moon Rashi','Meena (Pisces)','vMeena',null,'var(--c3)'],
+      ['lblLagna','Sunrise Lagna','Tula (Libra)','vTula',null,'var(--c5)']
+    ];
+    var box = $('facts'), first = !box.children.length;
+    box.innerHTML = rows.map(function(r, i){
+      var label = tr(r[1], TE[r[0]]);
+      var val = r[3] ? tr(r[2], TE[r[3]]) : r[2];
+      return '<div class="reveal' + (first ? '' : ' in') + '" style="--d:' + (i * .05).toFixed(2) + 's"><div class="fact tilt" data-tilt="12" style="--c:' + r[5] + '"><small class="z1">' + label + '</small><b class="z2">' + val + '</b>' + (r[4] ? '<em class="z1">' + E + ' ' + r[4] + '</em>' : '') + '</div></div>';
+    }).join('');
+    bindTilts(box);
+    if (first) box.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+  }
+
+  /* ============ services grid + footer ============ */
+  var grid = $('svcGrid');
+  function renderServices(first){
+    var open = lang === 'te' ? 'సేవను తెరవండి' : 'Open service';
+    var wasEmpty = !grid.children.length;
+    grid.innerHTML = SV.map(function(s, i){
+      var n = lang === 'te' ? s.te : s.en;
+      return '<div class="reveal' + (wasEmpty ? '' : ' in') + '" style="--d:' + ((i % 4) * 0.06).toFixed(2) + 's">' +
+        '<a class="card tilt" data-tilt="14" href="#" data-svc="' + s.id + '" style="--c:var(--c' + ((i % 6) + 1) + ')">' +
+        '<div class="coin-wrap z2"><div class="coin" style="--cd:-' + (i * 0.6).toFixed(1) + 's"><i>' + s.g + '</i><i>' + s.g + '</i><i></i><i></i><i></i></div></div>' +
+        '<h3 class="z2">' + n[0] + '</h3><p class="z1">' + n[1] + '</p><span class="go z2">' + open + '</span></a></div>';
+    }).join('');
+    bindTilts(grid);
+    if (wasEmpty) grid.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+  }
+  function renderFooterLinks(){
+    var a = [], b = [], i;
+    for (i = 0; i < 8; i++) a.push('<li><a href="#" data-svc="' + SV[i].id + '">' + svcName(SV[i]) + '</a></li>');
+    [8,9,10,11,12,13,14].forEach(function(k){ b.push('<li><a href="#" data-svc="' + SV[k].id + '">' + svcName(SV[k]) + '</a></li>'); });
+    b.push('<li><a href="' + SITE + 'privacy">' + tr('Privacy Policy', 'గోప్యతా విధానం') + '</a></li>');
+    b.push('<li><a href="' + SITE + 'terms">' + tr('Terms of Use', 'వినియోగ నిబంధనలు') + '</a></li>');
+    $('fl1').innerHTML = a.join(''); $('fl2').innerHTML = b.join('');
+  }
+
+  /* ============ reveal + tilt ============ */
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.1, rootMargin: '0px 0px -5% 0px' });
+  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+
+  function bindTilt(el){
+    if (el.__tilt) return; el.__tilt = true;
+    var max = parseFloat(el.getAttribute('data-tilt')) || 10;
+    el.addEventListener('pointermove', function(e){
+      if (e.pointerType !== 'mouse' || reduce) return;
+      var r = el.getBoundingClientRect(), px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
+      el.style.setProperty('--ry', ((px - .5) * 2 * max).toFixed(2) + 'deg');
+      el.style.setProperty('--rx', ((.5 - py) * 2 * max).toFixed(2) + 'deg');
+      el.style.setProperty('--gx', (px * 100).toFixed(1) + '%'); el.style.setProperty('--gy', (py * 100).toFixed(1) + '%');
+    });
+    el.addEventListener('pointerleave', function(){ el.style.setProperty('--rx', '0deg'); el.style.setProperty('--ry', '0deg'); });
+  }
+  function bindTilts(root){ (root || document).querySelectorAll('.tilt').forEach(bindTilt); }
+  bindTilts(document);
+
+  /* ============ pointer-driven 3D objects ============ */
+  var mouse = { x: 0, y: 0 }, h1 = $('h1');
+  window.addEventListener('pointermove', function(e){
+    mouse.x = (e.clientX / window.innerWidth - .5) * 2; mouse.y = (e.clientY / window.innerHeight - .5) * 2;
+    if (!reduce && h1){ h1.style.setProperty('--hy', (mouse.x * 8).toFixed(2) + 'deg'); h1.style.setProperty('--hx', (-mouse.y * 5).toFixed(2) + 'deg'); }
+  }, { passive: true });
+  function stageTilt(stage, obj, a, b, b1, b2){
+    stage.addEventListener('pointermove', function(e){
+      if (e.pointerType !== 'mouse' || reduce) return;
+      var r = stage.getBoundingClientRect(), px = (e.clientX - r.left) / r.width - .5, py = (e.clientY - r.top) / r.height - .5;
+      obj.style.setProperty(a, (b1 - py * 24).toFixed(1) + 'deg'); obj.style.setProperty(b, (b2 + px * 60).toFixed(1) + 'deg');
+    });
+    stage.addEventListener('pointerleave', function(){ obj.style.setProperty(a, b1 + 'deg'); obj.style.setProperty(b, b2 + 'deg'); });
+  }
+  stageTilt($('phoneStage'), $('phone'), '--px', '--py', 6, -22);
+  stageTilt($('medalStage'), $('medal'), '--mx', '--my', 8, -16);
+
+  /* ============ views (pages) ============ */
+  var VIEWS = ['home', 'ask', 'subscribe', 'contact'], currentView = 'home';
+  function setView(v, fromHash){
+    if (VIEWS.indexOf(v) < 0) v = 'home';
+    currentView = v;
+    VIEWS.forEach(function(n){ $('view-' + n).classList.toggle('active', n === v); });
+    document.querySelectorAll('[data-nav]').forEach(function(a){ a.classList.toggle('on', a.getAttribute('data-nav') === v); });
+    window.scrollTo(0, 0);
+    if (!fromHash){ try { if (location.hash.slice(1) !== v) location.hash = v; } catch(e){} }
+    prefill();
+    setTimeout(function(){ window.dispatchEvent(new Event('resize')); detectSide(); }, 30);
+  }
+  window.addEventListener('hashchange', function(){
+    var h = ''; try { h = location.hash.slice(1); } catch(e){}
+    if (VIEWS.indexOf(h) >= 0 && h !== currentView) setView(h, true);
+  });
+  function scrollToId(id){
+    if (currentView !== 'home') setView('home');
+    setTimeout(function(){
+      var el = $(id); if (!el) return;
+      var top = el.getBoundingClientRect().top + window.scrollY - 76;
+      window.scrollTo({ top: top, behavior: reduce ? 'auto' : 'smooth' });
+    }, currentView === 'home' ? 0 : 90);
+  }
+  function prefill(){
+    if (!lead) return;
+    ['aName','sName','lName','oName'].forEach(function(id){ var el = $(id); if (el && !el.value) el.value = lead.name || ''; });
+    ['aMob','sMob','lMob','oMob'].forEach(function(id){ var el = $(id); if (el && !el.value) el.value = lead.mobile || ''; });
+  }
+
+  /* ============ lead sheet on top ============ */
+  var sheet = $('sheet'), scrim = $('scrim'), pendingAfter = null, pendingPlan = null;
+  function openSheet(opts){
+    opts = opts || {}; pendingAfter = opts.after || null; pendingPlan = opts.plan || null;
+    var needNum = !(lead && lead.name && lead.mobile);
+    $('step1').hidden = !needNum; $('step2').hidden = needNum;
+    $('dot1').classList.toggle('on', needNum); $('dot2').classList.toggle('on', !needNum);
+    $('dot2').style.opacity = pendingPlan ? .25 : 1;
+    $('lErr').textContent = ''; prefill();
+    sheet.classList.add('open'); scrim.classList.add('open');
+    window.scrollTo({ top: window.scrollY });
+    setTimeout(function(){ var f = needNum ? $('lName') : sheet.querySelector('input[name=plan]:checked'); if (f && f.focus) f.focus({ preventScroll: true }); }, 450);
+  }
+  function closeSheet(){ sheet.classList.remove('open'); scrim.classList.remove('open'); pendingAfter = null; pendingPlan = null; }
+  function needAccess(after){
+    if (lead && lead.name && lead.mobile && lead.plan){ after && after(); return; }
+    openSheet({ after: after });
+  }
+  $('shX').addEventListener('click', closeSheet);
+  scrim.addEventListener('click', closeSheet);
+  $('leadForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var n = $('lName').value.trim(), m = $('lMob').value.trim(), err = $('lErr');
+    if (n.length < 2){ err.textContent = tr('Please enter your name.', 'దయచేసి మీ పేరు నమోదు చేయండి.'); $('lName').focus(); return; }
+    if (!validMobile(m)){ err.textContent = tr('Enter a valid mobile number (10 digits, with country code if outside India).', 'సరైన మొబైల్ నంబర్ నమోదు చేయండి (10 అంకెలు, భారతదేశం వెలుపల అయితే దేశ కోడ్‌తో).'); $('lMob').focus(); return; }
+    if (!$('lOk').checked){ err.textContent = tr('Please tick the box to agree to be contacted.', 'సంప్రదించడానికి అంగీకరిస్తూ బాక్స్‌ను టిక్ చేయండి.'); return; }
+    lead = { name: n, mobile: cleanMobile(m), plan: (lead && lead.plan) || null };
+    saveLead(); prefill();
+    if (pendingPlan){ finishSubscribe(pendingPlan); return; }
+    if (lead.plan){ var a = pendingAfter; closeSheet(); a && a(); return; }
+    $('step1').hidden = true; $('step2').hidden = false; $('dot2').classList.add('on');
+  });
+  function finishSubscribe(plan){
+    lead.plan = plan; saveLead();
+    var label = plan === 'week' ? '₹2 / week' : '₹9 / month';
+    sendWA('Namaste Prasad Sharma garu, I want to subscribe (' + label + ').\nName: ' + lead.name + '\nMobile: ' + lead.mobile);
+    var a = pendingAfter; closeSheet();
+    toast(tr('Subscription request ready (' + label + '). Send the WhatsApp message and we will contact you to complete payment.', 'సబ్‌స్క్రిప్షన్ అభ్యర్థన సిద్ధం (' + (plan === 'week' ? 'వారానికి ₹2' : 'నెలకు ₹9') + '). వాట్సాప్ సందేశం పంపండి, చెల్లింపు పూర్తి చేయడానికి మేము సంప్రదిస్తాము.'), null, 8000);
+    if (a) setTimeout(a, 400);
+  }
+  $('planForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var p = (document.querySelector('input[name=plan]:checked') || {}).value || 'month';
+    finishSubscribe(p);
+  });
+  document.querySelectorAll('[data-plan]').forEach(function(b){
+    b.addEventListener('click', function(){
+      var p = b.getAttribute('data-plan');
+      if (lead && lead.name && lead.mobile){ pendingAfter = null; pendingPlan = p; finishSubscribe(p); }
+      else openSheet({ plan: p });
+    });
+  });
+
+  /* ============ service dialog ============ */
+  var modal = $('modal'), modalSvc = null;
+  function buildModal(s, keep){
+    modalSvc = s;
+    var n = lang === 'te' ? s.te : s.en;
+    $('mT').textContent = n[0]; $('mD').textContent = n[1];
+    var spec = SPEC[s.t] || [], html = '';
+    var ids = spec.slice();
+    if (!keep || !$('mFields').children.length){
+      var inGroup = false;
+      html = spec.map(function(k){
+        var d = FD[k], label = lang === 'te' ? d[1] : d[0], id = 'f_' + k, type = d[2], inner;
+        if (type === 'select'){
+          inner = '<select id="' + id + '">' + d[3].map(function(o){ return '<option value="' + o[0] + '">' + (lang === 'te' ? o[1] + ' (' + o[0].replace(/ \(.*\)/, '') + ')' : o[0]) + '</option>'; }).join('') + '</select>';
+          if (lang === 'te') inner = inner.replace(/ \(([A-Za-z \-]+)\)<\/option>/g, function(m, g){ return ' (' + g + ')</option>'; });
+        } else if (type === 'textarea'){ inner = '<textarea id="' + id + '"></textarea>'; }
+        else if (type === 'number'){ inner = '<input type="number" min="1" max="108" id="' + id + '" inputmode="numeric">'; }
+        else { inner = '<input type="' + type + '" id="' + id + '">'; }
+        return '<label><span>' + label + '</span>' + inner + '</label>';
+      }).join('');
+      $('mFields').innerHTML = html;
+    } else {
+      /* language switch while open: relabel only */
+      spec.forEach(function(k){ var el = $('f_' + k); if (el && el.parentNode.firstChild) el.parentNode.firstChild.textContent = lang === 'te' ? FD[k][1] : FD[k][0]; });
+    }
+    $('sErr').textContent = '';
+  }
+  function openService(s){
+    if (s.view){ setView(s.view); return; }
+    modalSvc = s; $('mFields').innerHTML = '';
+    buildModal(s, false);
+    var i = SV.indexOf(s);
+    modal.querySelector('.modal-in').style.setProperty('--mc', 'var(--c' + ((i % 6) + 1) + ')');
+    $('mOrig').setAttribute('href', SITE + s.slug);
+    prefill(); modal.classList.add('open');
+    setTimeout(function(){ var f = $('mFields').querySelector('input,select,textarea'); if (f) f.focus({ preventScroll: true }); }, 200);
+  }
+  function closeModal(){ modal.classList.remove('open'); modalSvc = null; }
+  $('mX').addEventListener('click', closeModal);
+  modal.addEventListener('click', function(e){ if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape'){ closeModal(); closeSheet(); } });
+  $('svcForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var s = modalSvc; if (!s) return;
+    var n = $('sName').value.trim(), m = $('sMob').value.trim(), err = $('sErr');
+    if (n.length < 2){ err.textContent = tr('Please enter your name.', 'దయచేసి మీ పేరు నమోదు చేయండి.'); return; }
+    if (!validMobile(m)){ err.textContent = tr('Enter a valid mobile number.', 'సరైన మొబైల్ నంబర్ నమోదు చేయండి.'); return; }
+    var lines = ['Namaste Prasad Sharma garu,', 'Service: ' + s.en[0], 'Name: ' + n, 'Mobile: ' + cleanMobile(m)];
+    (SPEC[s.t] || []).forEach(function(k){
+      var el = $('f_' + k); if (!el) return; var v = (el.value || '').trim();
+      if (v) lines.push(FD[k][0].replace(' (optional)', '') + ': ' + v);
+    });
+    sendWA(lines.join('\n'));
+    closeModal();
+  });
+  $('mOrig').addEventListener('click', function(e){ e.preventDefault(); ext($('mOrig').getAttribute('href')); });
+
+  /* ============ ask form + offers form ============ */
+  $('askForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var n = $('aName').value.trim(), m = $('aMob').value.trim(), q = $('aQ').value.trim(), err = $('aErr');
+    if (n.length < 2){ err.textContent = tr('Please enter your name.', 'దయచేసి మీ పేరు నమోదు చేయండి.'); return; }
+    if (!validMobile(m)){ err.textContent = tr('Enter a valid mobile number.', 'సరైన మొబైల్ నంబర్ నమోదు చేయండి.'); return; }
+    if (q.length < 5){ err.textContent = tr('Please type your question.', 'దయచేసి మీ ప్రశ్న రాయండి.'); return; }
+    err.textContent = '';
+    if (!lead || !lead.name){ lead = { name: n, mobile: cleanMobile(m), plan: null }; saveLead(); }
+    needAccess(function(){
+      var lines = ['Namaste Prasad Sharma garu,', 'Ask an Astrologer', 'Name: ' + n, 'Mobile: ' + cleanMobile(m)];
+      if ($('aDob').value) lines.push('Date of birth: ' + $('aDob').value);
+      if ($('aTob').value) lines.push('Time of birth: ' + $('aTob').value);
+      if ($('aPob').value.trim()) lines.push('Place of birth: ' + $('aPob').value.trim());
+      lines.push('Question: ' + q);
+      sendWA(lines.join('\n'));
+    });
+  });
+  $('offerForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var n = $('oName').value.trim(), m = $('oMob').value.trim(), err = $('oErr');
+    if (n.length < 2){ err.textContent = tr('Please enter your name.', 'దయచేసి మీ పేరు నమోదు చేయండి.'); return; }
+    if (!validMobile(m)){ err.textContent = tr('Enter a valid mobile number.', 'సరైన మొబైల్ నంబర్ నమోదు చేయండి.'); return; }
+    if (!$('oOk').checked){ err.textContent = tr('Please tick the box to agree.', 'అంగీకరిస్తూ బాక్స్‌ను టిక్ చేయండి.'); return; }
+    err.textContent = '';
+    if (!lead || !lead.name){ lead = { name: n, mobile: cleanMobile(m), plan: null }; saveLead(); }
+    sendWA('Namaste, please send me the daily panchangam and offers.\nName: ' + n + '\nMobile: ' + cleanMobile(m));
+    $('oMsg').textContent = tr('Opening WhatsApp so you can send your details.', 'మీ వివరాలు పంపడానికి వాట్సాప్ తెరుస్తున్నాం.');
+  });
+  $('oNo').addEventListener('click', function(){ $('offerWrap').parentNode.style.display = 'none'; });
+
+  /* ============ one click handler for every link and button ============ */
+  document.addEventListener('click', function(e){
+    var t = e.target.closest('[data-svc],[data-wa],[data-scroll],[data-view],a[href]');
+    if (!t) return;
+    if (t.hasAttribute('data-svc')){
+      e.preventDefault();
+      var s = svcById(t.getAttribute('data-svc')); if (!s) return;
+      if (s.view){ if (s.view === 'subscribe' || s.view === 'ask'){ setView(s.view); } else setView(s.view); return; }
+      needAccess(function(){ openService(s); }); return;
+    }
+    if (t.hasAttribute('data-wa')){ e.preventDefault(); sendWA(t.getAttribute('data-wa')); return; }
+    if (t.hasAttribute('data-scroll')){ e.preventDefault(); scrollToId(t.getAttribute('data-scroll')); return; }
+    if (t.hasAttribute('data-view')){
+      e.preventDefault();
+      var v = t.getAttribute('data-view');
+      if (t.hasAttribute('data-need')) needAccess(function(){ setView(v); }); else setView(v);
+      return;
+    }
+    var href = t.getAttribute('href') || '';
+    if (href.charAt(0) === '#'){ e.preventDefault(); return; }
+    if (/^(https?:|tel:|mailto:)/i.test(href)){ e.preventDefault(); ext(t.href || href, href); }
+  });
+
+  /* ============ which side the 3D scene should sit on ============ */
+  var activeSide = 'right';
+  function detectSide(){
+    var mid = window.innerHeight * 0.5, best = 1e9, side = 'right';
+    document.querySelectorAll('.view.active [data-side]').forEach(function(s){
+      var r = s.getBoundingClientRect();
+      var d = (r.top <= mid && r.bottom >= mid) ? 0 : Math.min(Math.abs(r.top - mid), Math.abs(r.bottom - mid));
+      if (d < best){ best = d; side = s.getAttribute('data-side'); }
+    });
+    activeSide = side;
+  }
+  window.addEventListener('scroll', detectSide, { passive: true });
+  window.addEventListener('resize', detectSide);
+
+  /* ============ start ============ */
+  applyLang();
+  (function(){ var h = ''; try { h = location.hash.slice(1); } catch(e){} if (VIEWS.indexOf(h) > 0) setView(h, true); else setView('home', true); })();
+  detectSide();
+
+  /* ============ THREE: colourful armillary + stars ============ */
+  var canvas = $('bg');
+  if (typeof THREE === 'undefined'){ document.documentElement.classList.add('no-webgl'); return; }
+  function cssCol(name){ return new THREE.Color(getComputedStyle(document.documentElement).getPropertyValue(name).trim() || '#FFB347'); }
+  var renderer;
+  try { renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true }); }
+  catch (err){ document.documentElement.classList.add('no-webgl'); return; }
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  var scene = new THREE.Scene();
+  var camera = new THREE.PerspectiveCamera(50, 1, 0.1, 400); camera.position.set(0, 0, 12);
+  var rig = new THREE.Group(); scene.add(rig);
+  var arm = new THREE.Group(); rig.add(arm);
+  var tinted = [];
+  function tint(mat, v){ tinted.push([mat, v]); mat.color.copy(cssCol(v)); return mat; }
+
+  function ring(r, tube, rx, ry, rz, op, cv){
+    var m = tint(new THREE.MeshBasicMaterial({ transparent: true, opacity: op || .9 }), cv);
+    var mesh = new THREE.Mesh(new THREE.TorusGeometry(r, tube, 8, 160), m);
+    mesh.rotation.set(rx, ry, rz); arm.add(mesh); return mesh;
+  }
+  var rings = [
+    ring(3.5, .026, Math.PI / 2, 0, 0, .95, '--c6'),
+    ring(3.5, .018, 0, 0, 0, .7, '--c4'),
+    ring(3.5, .018, 0, Math.PI / 2, 0, .7, '--c3'),
+    ring(3.5, .024, Math.PI / 2 - 0.409, 0, 0, .95, '--c2'),
+    ring(2.9, .016, .6, .4, 0, .75, '--c5'),
+    ring(2.25, .016, -.5, .9, .3, .7, '--c1')
+  ];
+  var zod = new THREE.Group(); zod.rotation.set(-0.409, 0, 0); arm.add(zod);
+  var zv = ['--c1','--c2','--c3','--c4','--c5','--c6'];
+  for (var z = 0; z < 12; z++){
+    var zm = tint(new THREE.MeshBasicMaterial(), zv[z % 6]), a = z / 12 * Math.PI * 2;
+    var node = new THREE.Mesh(new THREE.OctahedronGeometry(.14, 0), zm);
+    node.position.set(Math.cos(a) * 3.5, 0, Math.sin(a) * 3.5); zod.add(node);
+  }
+  function tri(rot, cv){
+    var pts = [], i;
+    for (i = 0; i < 3; i++){ var t = rot + i / 3 * Math.PI * 2; pts.push(new THREE.Vector3(Math.cos(t) * 2.5, Math.sin(t) * 2.5, 0)); }
+    return new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(pts), tint(new THREE.LineBasicMaterial({ transparent: true, opacity: .9 }), cv));
+  }
+  var shat = new THREE.Group(); shat.add(tri(Math.PI / 2, '--c3')); shat.add(tri(-Math.PI / 2, '--c4')); arm.add(shat);
+
+  var lotus = new THREE.Group(); arm.add(lotus);
+  var pm1 = tint(new THREE.MeshBasicMaterial({ wireframe: true, transparent: true, opacity: .85 }), '--c1');
+  var pm2 = tint(new THREE.MeshBasicMaterial({ wireframe: true, transparent: true, opacity: .85 }), '--c2');
+  for (var p = 0; p < 12; p++){
+    var piv = new THREE.Object3D(); piv.rotation.y = p / 12 * Math.PI * 2;
+    var cone = new THREE.Mesh(new THREE.ConeGeometry(.26, 1.0, 4), p % 2 ? pm1 : pm2);
+    cone.rotation.z = -Math.PI / 2; cone.position.x = 1.05; piv.add(cone); lotus.add(piv);
+  }
+  var sun = new THREE.Mesh(new THREE.SphereGeometry(.5, 32, 32), new THREE.MeshBasicMaterial({ color: 0xFFB23D })); arm.add(sun);
+  var gc = document.createElement('canvas'); gc.width = gc.height = 128;
+  var gx = gc.getContext('2d'), gg = gx.createRadialGradient(64, 64, 4, 64, 64, 64);
+  gg.addColorStop(0, 'rgba(255,214,120,.95)'); gg.addColorStop(.35, 'rgba(255,110,150,.4)'); gg.addColorStop(1, 'rgba(176,124,255,0)');
+  gx.fillStyle = gg; gx.fillRect(0, 0, 128, 128);
+  var glow = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(gc), blending: THREE.AdditiveBlending, transparent: true, depthWrite: false }));
+  glow.scale.set(4.6, 4.6, 1); arm.add(glow);
+
+  var grahas = [
+    { c: 0xF2F2FF, r: 1.5, s: 1.9, t: .3, size: .13 }, { c: 0xFF5A3C, r: 1.9, s: 1.5, t: -.4, size: .12 },
+    { c: 0x4DE08A, r: 2.3, s: 1.2, t: .6, size: .11 }, { c: 0xFFD23F, r: 2.7, s: .9, t: -.2, size: .19 },
+    { c: 0xFF9ED8, r: 3.0, s: .75, t: .9, size: .14 }, { c: 0x5A7BFF, r: 3.3, s: .55, t: -.7, size: .16 },
+    { c: 0xB07CFF, r: 3.9, s: .4, t: .2, size: .13 }, { c: 0xFF8A50, r: 4.2, s: .32, t: -.5, size: .13 }
+  ];
+  grahas.forEach(function(g, i){
+    var pv = new THREE.Object3D(); pv.rotation.set(g.t, i * .7, g.t * .6); arm.add(pv);
+    var pts = [], k; for (k = 0; k <= 96; k++){ var aa = k / 96 * Math.PI * 2; pts.push(new THREE.Vector3(Math.cos(aa) * g.r, 0, Math.sin(aa) * g.r)); }
+    pv.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), new THREE.LineBasicMaterial({ color: g.c, transparent: true, opacity: .3 })));
+    var body = new THREE.Mesh(new THREE.SphereGeometry(g.size, 20, 20), new THREE.MeshBasicMaterial({ color: g.c }));
+    pv.add(body); g.body = body; g.a = i * 1.1;
+  });
+
+  var small = window.innerWidth < 760;
+  var starVars = ['--star','--c6','--c4','--c2','--c5','--star','--c3'];
+  function makeStars(n, rmin, rmax, size, op){
+    var pos = new Float32Array(n * 3), col = new Float32Array(n * 3), idx = new Uint8Array(n), i;
+    for (i = 0; i < n; i++){
+      var u = Math.random() * 2 - 1, th = Math.random() * Math.PI * 2, rr = rmin + Math.random() * (rmax - rmin), s = Math.sqrt(1 - u * u);
+      pos[i * 3] = rr * s * Math.cos(th); pos[i * 3 + 1] = rr * u; pos[i * 3 + 2] = rr * s * Math.sin(th);
+      idx[i] = Math.floor(Math.random() * starVars.length);
+    }
+    var g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.BufferAttribute(pos, 3)); g.setAttribute('color', new THREE.BufferAttribute(col, 3));
+    var m = new THREE.PointsMaterial({ size: size, sizeAttenuation: true, vertexColors: true, transparent: true, opacity: op, depthWrite: false });
+    var pts = new THREE.Points(g, m); pts.userData.idx = idx; return pts;
+  }
+  var stars1 = makeStars(small ? 700 : 1600, 30, 120, .24, .9); scene.add(stars1);
+  var stars2 = makeStars(27, 18, 40, .95, 1); scene.add(stars2);
+  function paintStars(pts){
+    var cols = starVars.map(function(v){ return cssCol(v); }), arr = pts.geometry.attributes.color.array, idx = pts.userData.idx, i;
+    for (i = 0; i < idx.length; i++){ var c = cols[idx[i]]; arr[i * 3] = c.r; arr[i * 3 + 1] = c.g; arr[i * 3 + 2] = c.b; }
+    pts.geometry.attributes.color.needsUpdate = true;
+  }
+  function recolor(){ tinted.forEach(function(t){ t[0].color.copy(cssCol(t[1])); }); paintStars(stars1); paintStars(stars2); }
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(){ setTimeout(recolor, 40); });
+  recolor();
+
+  function resize(){ var w = window.innerWidth, h = window.innerHeight; renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); }
+  window.addEventListener('resize', resize); resize();
+
+  /* drag the background to spin the sphere */
+  var spinV = 0, dragging = false, lastX = 0;
+  window.addEventListener('pointerdown', function(e){
+    if (e.target.closest('a,button,input,select,textarea,label,.panel,.card,.fact,.plan,.sheet,.modal,.stage,.medal-stage,header,footer,.toast')) return;
+    dragging = true; lastX = e.clientX;
+  });
+  window.addEventListener('pointermove', function(e){ if (dragging){ spinV += (e.clientX - lastX) * .004; lastX = e.clientX; } }, { passive: true });
+  window.addEventListener('pointerup', function(){ dragging = false; });
+
+  var clock = new THREE.Clock(), cur = { x: 3.4, z: 0, s: 1 }, scrollP = 0;
+  function onScroll(){ var m = document.documentElement.scrollHeight - window.innerHeight; scrollP = m > 0 ? window.scrollY / m : 0; }
+  window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
+  function frame(){
+    var dt = Math.min(clock.getDelta(), .05), t = clock.elapsedTime;
+    var mobile = window.innerWidth < 1040, tx = 0, tz = 0, ts = 1;
+    if (mobile){ tz = -5; ts = .85; }
+    else if (activeSide === 'right') tx = 3.6;
+    else if (activeSide === 'left') tx = -3.6;
+    else { tz = -6.5; ts = .9; }
+    var k = 1 - Math.pow(.001, dt);
+    cur.x += (tx - cur.x) * k * 1.2; cur.z += (tz - cur.z) * k * 1.2; cur.s += (ts - cur.s) * k * 1.2;
+    rig.position.set(cur.x, Math.sin(t * .5) * (reduce ? 0 : .15), cur.z); rig.scale.setScalar(cur.s);
+    var spin = reduce ? 0 : dt;
+    arm.rotation.y += spin * .12 + spinV * dt * 6; spinV *= Math.pow(.05, dt);
+    arm.rotation.x = .45 + scrollP * 1.6 + mouse.y * .12; arm.rotation.z = scrollP * .8 + mouse.x * .06;
+    rings[4].rotation.z += spin * .25; rings[5].rotation.x += spin * .18;
+    shat.rotation.z += spin * .2; lotus.rotation.y -= spin * .25;
+    glow.material.opacity = .85 + Math.sin(t * 2) * .1;
+    grahas.forEach(function(g){ if (!reduce) g.a += dt * g.s * .35; g.body.position.set(Math.cos(g.a) * g.r, 0, Math.sin(g.a) * g.r); });
+    stars1.rotation.y += spin * .004; stars2.rotation.y -= spin * .006;
+    camera.position.x += (mouse.x * 1.1 - camera.position.x) * .04;
+    camera.position.y += (-mouse.y * .7 - camera.position.y) * .04;
+    camera.position.z = 12 - scrollP * 2.5; camera.lookAt(0, 0, 0);
+    renderer.render(scene, camera);
+    requestAnimationFrame(frame);
+  }
+  frame();
+
+  /* ============ THREE: moon ============ */
+  var mc = $('moon');
+  try {
+    var mr = new THREE.WebGLRenderer({ canvas: mc, antialias: true, alpha: true });
+    mr.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    var ms = new THREE.Scene(), mcam = new THREE.PerspectiveCamera(35, 1, .1, 50); mcam.position.z = 5;
+    var tc = document.createElement('canvas'); tc.width = 512; tc.height = 256;
+    var t2 = tc.getContext('2d'); t2.fillStyle = '#d4cdbf'; t2.fillRect(0, 0, 512, 256);
+    var i2, j2;
+    for (i2 = 0; i2 < 26; i2++){ t2.fillStyle = 'rgba(95,90,85,' + (.12 + Math.random() * .16) + ')'; t2.beginPath(); t2.arc(Math.random() * 512, 30 + Math.random() * 200, 14 + Math.random() * 40, 0, 7); t2.fill(); }
+    for (j2 = 0; j2 < 220; j2++){ var cx = Math.random() * 512, cy = Math.random() * 256, cr = 1.5 + Math.random() * 7;
+      t2.fillStyle = 'rgba(70,66,62,.28)'; t2.beginPath(); t2.arc(cx, cy, cr, 0, 7); t2.fill();
+      t2.fillStyle = 'rgba(245,240,230,.35)'; t2.beginPath(); t2.arc(cx - cr * .25, cy - cr * .25, cr * .7, 0, 7); t2.fill(); }
+    var moon = new THREE.Mesh(new THREE.SphereGeometry(1.4, 64, 64), new THREE.MeshStandardMaterial({ map: new THREE.CanvasTexture(tc), roughness: 1, metalness: 0 }));
+    ms.add(moon); ms.add(new THREE.AmbientLight(0x8a7fb0, .22));
+    var sunL = new THREE.DirectionalLight(0xfff1d6, 1.55); sunL.position.set(2.4, .5, 3); ms.add(sunL);
+    var moonVisible = false;
+    new IntersectionObserver(function(en){ moonVisible = en[0].isIntersecting; }).observe(mc);
+    var mres = function(){ var s = mc.clientWidth || 280; mr.setSize(s, s, false); };
+    window.addEventListener('resize', mres); mres();
+    (function mloop(){ if (moonVisible){ if (!reduce) moon.rotation.y += .003; mr.render(ms, mcam); } requestAnimationFrame(mloop); })();
+  } catch (e2){ if (mc) mc.style.display = 'none'; }
+})();
+</script>
+</body>
+</html>
